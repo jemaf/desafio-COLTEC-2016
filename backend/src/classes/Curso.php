@@ -6,8 +6,8 @@
 class Curso
 {
 
-  protected $id;
-  protected $nome;
+  public $id;
+  public $nome;
 
   /**
    *  Construtor que recebe um vetor com os atributos do curso
