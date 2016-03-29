@@ -27,13 +27,67 @@
               <h5 class="header col s12 light">O portal educativo do COLTEC!!</h5>
             </div>
             <div class="row center">
-              <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light indigo darken-3">Novo Vídeo</a>
+              <a href="#modal-novo-video" class="btn-large waves-effect waves-light indigo darken-3 modal-trigger">Novo Vídeo</a>
             </div>
           </div>
           <div class="parallax"><img src="public/images/coltec.png" alt="Unsplashed background img 1"></div>
         </div>
       </div>
       <!-- Fim Banner principal -->
+
+
+      <!-- Modal para cadastro de novo vídeo -->
+      <div id="modal-novo-video" class="modal modal-fixed-footer">
+        <div class="row">
+          <form class="col s12" method="post">
+            <div class="modal-content">
+              <div class="row">
+                <div class="input-field col s6">
+                  <input placeholder="Ex. Estruturas Condicionais" id="titulo" type="text" class="validate">
+                  <label for="titulo">Título</label>
+                </div>
+                <div class="input-field col s6">
+                  <input placeholder="Ex. Introdução a Programação" id="disciplina" type="text" class="validate">
+                  <label for="disciplina">Disciplina</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s6" ng-controller="CursosController as cursosCtrl">
+                  <select>
+                    <option value="" disabled selected>Escolha um Curso</option>
+                    <option ng-repeat="curso in cursosCtrl.cursos" value="{{curso.id}}">{{curso.nome}}</option>
+                  </select>
+                  <label>Curso</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input id="link-video" type="text" class="validate">
+                  <label for="link-video">Link para Vídeo</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input id="link-imagem" type="text" class="validate">
+                  <label for="link-imagem">Link para Imagem</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <textarea id="resumo" class="materialize-textarea"></textarea>
+                  <label for="resumo">Resumo</label>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+              <input type="submit" class="modal-action modal-close waves-effect waves-green btn-flat" value="Cadastrar">
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- Fim da modal de novo vídeo -->
+
 
       <!-- Seção step-to-step -->
       <div class="container">
@@ -103,13 +157,15 @@
                   </div>
                   <div class="card-action indigo lighten-5">
                     <a href="#video-{{video.id}}" class="indigo-text modal-trigger">Vídeo</a>
-                    <a href="#comment-{{video.id}}" class="indigo-text modal-trigger">Comentar</a>
+                    <a href="#comment-{{video.id}}" class="indigo-text modal-trigger">Comentários</a>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+
         <!-- Modais para exibição dos vídeos e comentários -->
         <div ng-repeat="video in videosCtrl.videos">
           <div id="video-{{video.id}}" class="modal">
@@ -122,10 +178,20 @@
               <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
             </div>
           </div>
-          <div id="comment-{{video.id}}" class="modal">
+          <div id="comment-{{video.id}}" class="modal modal-fixed-footer">
             <div class="modal-content">
-              <h4>{{video.disciplina}}</h4>
-              <p>{{video.titulo}}</p>
+              <h4>Comentários</h4>
+              <div class="row" ng-repeat="comentario in video.comentarios">
+                <div class="col s12">
+                  <b>Nota: </b> <i class="material-icons tiny" ng-repeat="n in [] | range:comentario.nota">grade</i>
+                </div>
+                <div class="col s12">
+                  <b>Comentário</b>
+                  <p>
+                    {{comentario.comentario}}
+                  </p>
+                </div>
+              </div>
             </div>
             <div class="modal-footer">
               <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
@@ -175,6 +241,7 @@
         $(function(){
           $('.parallax').parallax();
           $('.modal-trigger').leanModal();
+          $('select').material_select();
         }); // end of document ready
       })(jQuery); // end of jQuery name space
       </script>
