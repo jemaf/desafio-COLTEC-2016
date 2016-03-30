@@ -37,11 +37,15 @@ class VideoDAO implements DefaultDAO
   }
 
 
+  public function deleteAll() {
+    $_SESSION["videos"] = [];
+  }
+
+
   public function update($object) {
     $video = $_SESSION["videos"][$object->id];
 
     if ($video) {
-      $video->nota = $object->nota ? $object->nota : $video->nota;
       $video->cursoId = $object->cursoId ? $object->cursoId : $video->cursoId;
       $video->titulo = $object->titulo ? $object->titulo : $video->titulo;
       $video->urlVideo = $object->urlVideo ? $object->urlVideo : $video->urlVideo;
@@ -63,10 +67,13 @@ class VideoDAO implements DefaultDAO
 
   public function getBy($data) {
     return array_filter($_SESSION["videos"], function($var) {
-      return ($var->id == $data->id || $data->id == NULL) &&
-              ($var->nota == $data->nota || $data->nota == NULL) &&
-              ($var->video == $data->video || $data->video == NULL) &&
-              ($var->videoId == $data->videoId || $data->videoId == NULL);
+      return ($var->id == $data['id'] || $data['id'] === NULL) &&
+              ($var->cursoId == $data['cursoId'] || $data['cursoId'] === NULL) &&
+              ($var->titulo == $data['titulo'] || $data['titulo'] === NULL) &&
+              ($var->urlVideo == $data['urlVideo'] || $data['urlVideo'] === NULL) &&
+              ($var->urlImagem == $data['urlImagem'] || $data['urlImagem'] === NULL) &&
+              ($var->resumo == $data['resumo'] || $data['resumo'] === NULL) &&
+              ($var->disciplina == $data['disciplina'] || $data['disciplina'] === NULL);
     });
   }
 

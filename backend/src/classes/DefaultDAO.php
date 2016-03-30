@@ -18,6 +18,12 @@ interface DefaultDAO {
    */
   public function delete($object);
 
+
+  /**
+   *  Exclui todos os objetos
+   */
+  public function deleteAll();
+
   /**
    * Atualiza um objeto
    *

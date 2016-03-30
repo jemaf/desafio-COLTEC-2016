@@ -46,6 +46,11 @@ class CursoDAO implements DefaultDAO
   }
 
 
+  public function deleteAll() {
+    $_SESSION["cursos"] = [];
+  }
+
+
   public function update($object) {
     $curso = $_SESSION["cursos"][$object->id];
 
@@ -65,8 +70,8 @@ class CursoDAO implements DefaultDAO
 
   public function getBy($data) {
     return array_filter($_SESSION["cursos"], function($var) {
-      return ($var->id == $data->id || $data->id == NULL) &&
-              ($var->nome == $data->nome || $data->nome == NULL);
+      return ($var->id == $data['id'] || $data['id'] === NULL) &&
+              ($var->nome == $data['nome'] || $data['nome'] === NULL);
     });
   }
 
