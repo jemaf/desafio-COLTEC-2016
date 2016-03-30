@@ -1,25 +1,35 @@
 <?php
-
 class VideoDAO implements DefaultDAO
 {
+  private function __construct() {
+    if (!isset($_SESSION["videos"])) {
+      $_SESSION["videos"] = [];
+    }
+  }
 
-  private static $videos = [];
+
+  public static function getInstance() {
+        static $instance = null;
+        if (null === $instance) {
+            $instance = new static();
+        }
+
+        return $instance;
+  }
+
 
   public function insert($object) {
-
     $novoVideo = new Video($object);
-    if (!$videos[$novoVideo->id]) {
-      $videos[$novoVideo->id] = $novoVideo;
-      return true;
-    }
+    $novoVideo->id = count($_SESSION["videos"]);
+    $_SESSION["videos"][] = $novoVideo;
 
-    return false;
+    return $novoVideo;
   }
 
 
   public function delete($object) {
-    if ($videos[$object->id]) {
-      unset($videos[$object->id]);
+    if ($_SESSION["videos"][$object->id]) {
+      unset($_SESSION["videos"][$object->id]);
       return true;
     }
 
@@ -28,7 +38,7 @@ class VideoDAO implements DefaultDAO
 
 
   public function update($object) {
-    $video = $videos[$object->id];
+    $video = $_SESSION["videos"][$object->id];
 
     if ($video) {
       $video->nota = $object->nota ? $object->nota : $video->nota;
@@ -47,16 +57,20 @@ class VideoDAO implements DefaultDAO
 
 
   public function getById($id) {
-    return $videos[$id];
+    return $_SESSION["videos"][$id];
   }
 
 
   public function getBy($data) {
-    return array_filter($videos, function($var) {
+    return array_filter($_SESSION["videos"], function($var) {
       return ($var->id == $data->id || $data->id == NULL) &&
               ($var->nota == $data->nota || $data->nota == NULL) &&
               ($var->video == $data->video || $data->video == NULL) &&
               ($var->videoId == $data->videoId || $data->videoId == NULL);
     });
+  }
+
+  public function getAll() {
+    return $_SESSION["videos"];
   }
 }

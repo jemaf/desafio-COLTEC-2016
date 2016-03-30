@@ -6,10 +6,10 @@
 class Comentario
 {
 
-  protected $id;
-  protected $nota;
-  protected $comentario;
-  protected $videoId;
+  public $id;
+  public $nota;
+  public $comentario;
+  public $videoId;
 
   /**
    * Construtor que recebe o vetor de data com os parâmetros do comentarios

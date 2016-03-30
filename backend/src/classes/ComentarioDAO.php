@@ -2,24 +2,35 @@
 
 class ComentarioDAO implements DefaultDAO {
 
-  private static $comentarios = [];
+  private function __construct() {
+    if (!isset($_SESSION["comentarios"])) {
+      $_SESSION["comentarios"] = [];
+    }
+  }
+
+
+  public static function getInstance() {
+        static $instance = null;
+        if (null === $instance) {
+            $instance = new static();
+        }
+
+        return $instance;
+  }
 
 
   public function insert($object) {
-    if (!$comentarios[$object->id]) {
-      $novoComentario = new Comentario($object);
-      $comentarios[$novoComentario->id] = $novoComentario;
+    $novoComentario = new Comentario($object);
+    $novoComentario->id = count($_SESSION["comentarios"]);
+    $_SESSION["comentarios"][] = $novoComentario;
 
-      return true;
-    }
-
-    return false;
+    return $novoComentario;
   }
 
 
   public function delete($object) {
-    if ($comentarios[$object->id]) {
-      unset($comentarios[$object->id]);
+    if ($_SESSION["comentarios"][$object->id]) {
+      unset($_SESSION["comentarios"][$object->id]);
 
       return true;
     }
@@ -29,7 +40,7 @@ class ComentarioDAO implements DefaultDAO {
 
 
   public function update($object) {
-    $comentario = $comentarios[$object->id];
+    $comentario = $_SESSION["comentarios"][$object->id];
 
     if ($comentario) {
       $comentario->nota = $object->nota ? $object->nota : $comentario->nota;
@@ -44,12 +55,12 @@ class ComentarioDAO implements DefaultDAO {
 
 
   public function getById($id) {
-    return $comentarios[$id];
+    return $_SESSION["comentarios"][$id];
   }
 
 
   public function getBy($data) {
-    return array_filter($comentarios, function($var) {
+    return array_filter($_SESSION["comentarios"], function($var) {
       return ($var->id == $data->id || $data->id == NULL) &&
               ($var->nota == $data->nota || $data->nota == NULL) &&
               ($var->comentario == $data->comentario || $data->comentario == NULL) &&
@@ -57,4 +68,8 @@ class ComentarioDAO implements DefaultDAO {
     });
   }
 
+
+  public function getAll() {
+    return $_SESSION["comentarios"];
+  }
 }

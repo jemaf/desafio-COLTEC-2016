@@ -11,8 +11,9 @@ spl_autoload_register(function ($classname) {
 
 $app = new \Slim\App;
 
+// ROTAS PARA CURSOS
 $app->get('/cursos', function (Request $request, Response $response) {
-  $cursoDAO = new CursoDAO();
+  $cursoDAO = CursoDAO::getInstance();
   $cursos = array_values($cursoDAO->getAll());
 
   return $response->withJson($cursos);
@@ -20,7 +21,7 @@ $app->get('/cursos', function (Request $request, Response $response) {
 
 $app->get('/cursos/{id}', function (Request $request, Response $response, $args) {
   $id = $args['id'];
-  $cursoDAO = new CursoDAO();
+  $cursoDAO = CursoDAO::getInstance();
   $cursos = $cursoDAO->getById($id);
 
   return $response->withJson($cursos);

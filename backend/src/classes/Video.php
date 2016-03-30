@@ -5,14 +5,13 @@
  */
 class Video
 {
-
-  protected $id;
-  protected $cursoId;
-  protected $disciplina;
-  protected $titulo;
-  protected $urlVideo;
-  protected $urlImagem;
-  protected $resumo;
+  public $id;
+  public $cursoId;
+  public $disciplina;
+  public $titulo;
+  public $urlVideo;
+  public $urlImagem;
+  public $resumo;
 
   /**
    * Recebe um vetor com os parâmetros e cria o objeto

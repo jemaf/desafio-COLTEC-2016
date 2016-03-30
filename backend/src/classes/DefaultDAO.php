@@ -1,4 +1,6 @@
 <?php
+// begin the session
+session_start();
 
 interface DefaultDAO {
 
@@ -36,5 +38,10 @@ interface DefaultDAO {
    * @param $data vetor com parâmetros da pesquisa
    */
   public function getBy($data);
+
+  /**
+   * Recupera todos os elementos cadastrados
+   */
+  public function getAll();
 
 }
