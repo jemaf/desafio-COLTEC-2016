@@ -70,8 +70,8 @@ class CursoDAO implements DefaultDAO
 
   public function getBy($data) {
     return array_filter($_SESSION["cursos"], function($var) {
-      return ($var->id == $data['id'] || $data['id'] === NULL) &&
-              ($var->nome == $data['nome'] || $data['nome'] === NULL);
+      return ($var->getId() == $data['id'] || $data['id'] === NULL) &&
+              ($var->getNome() == $data['nome'] || $data['nome'] === NULL);
     });
   }
 

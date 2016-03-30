@@ -6,7 +6,7 @@
 class Video
 {
   public $id;
-  public $cursoId;
+  private $cursoId;
   public $disciplina;
   public $titulo;
   public $urlVideo;

@@ -67,10 +67,10 @@ class ComentarioDAO implements DefaultDAO {
   public function getBy($data) {
     return array_filter($_SESSION["comentarios"], function($var) use($data) {
       return
-              ($var->id == $data['id'] || $data['id'] === NULL) &&
-              ($var->nota == $data['nota'] || $data['nota'] === NULL) &&
-              ($var->comentario == $data['comentario'] || $data['comentario'] === NULL) &&
-              ($var->videoId == $data['videoId'] || $data['videoId'] === NULL);
+              ($var->getId() == $data['id'] || $data['id'] === NULL) &&
+              ($var->getNota() == $data['nota'] || $data['nota'] === NULL) &&
+              ($var->getComentario() == $data['comentario'] || $data['comentario'] === NULL) &&
+              ($var->getVideoId() == $data['videoId'] || $data['videoId'] === NULL);
     });
   }
 

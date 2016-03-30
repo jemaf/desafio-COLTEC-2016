@@ -67,13 +67,13 @@ class VideoDAO implements DefaultDAO
 
   public function getBy($data) {
     return array_filter($_SESSION["videos"], function($var) {
-      return ($var->id == $data['id'] || $data['id'] === NULL) &&
-              ($var->cursoId == $data['cursoId'] || $data['cursoId'] === NULL) &&
-              ($var->titulo == $data['titulo'] || $data['titulo'] === NULL) &&
-              ($var->urlVideo == $data['urlVideo'] || $data['urlVideo'] === NULL) &&
-              ($var->urlImagem == $data['urlImagem'] || $data['urlImagem'] === NULL) &&
-              ($var->resumo == $data['resumo'] || $data['resumo'] === NULL) &&
-              ($var->disciplina == $data['disciplina'] || $data['disciplina'] === NULL);
+      return ($var->getId() == $data['id'] || $data['id'] === NULL) &&
+              ($var->getCursoId() == $data['cursoId'] || $data['cursoId'] === NULL) &&
+              ($var->getTitulo() == $data['titulo'] || $data['titulo'] === NULL) &&
+              ($var->getUrlVide() == $data['urlVideo'] || $data['urlVideo'] === NULL) &&
+              ($var->getUrlImagem() == $data['urlImagem'] || $data['urlImagem'] === NULL) &&
+              ($var->getResumo() == $data['resumo'] || $data['resumo'] === NULL) &&
+              ($var->getDisciplina() == $data['disciplina'] || $data['disciplina'] === NULL);
     });
   }
 

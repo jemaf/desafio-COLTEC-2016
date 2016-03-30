@@ -9,7 +9,7 @@ class Comentario
   public $id;
   public $nota;
   public $comentario;
-  public $videoId;
+  private $videoId;
 
   /**
    * Construtor que recebe o vetor de data com os parâmetros do comentarios
