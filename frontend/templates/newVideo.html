@@ -10,38 +10,38 @@
         <form class="col s12" method="post">
           <div class="row">
             <div class="input-field col s6">
-              <input id="titulo" type="text" class="validate">
+              <input id="titulo" type="text" class="validate" ng-model="video.titulo">
               <label for="titulo">Título</label>
             </div>
             <div class="input-field col s6">
-              <input id="disciplina" type="text" class="validate">
+              <input id="disciplina" type="text" class="validate" ng-model="video.disciplina">
               <label for="disciplina">Disciplina</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s6">
-              <select class="browser-default" ng-model="curso" ng-options="c.nome for c in videosCtrl.cursos track by c.id">
+              <select class="browser-default" ng-model="video.curso" ng-options="c.nome for c in videosCtrl.cursos track by c.id">
                 <option value="" disabled selected>Escolha um Curso</option>
               </select>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s6">
-              <input id="link-video" type="text" class="validate">
+              <input id="link-video" type="text" class="validate" ng-model="video.urlVideo">
               <label for="link-video">Link para Vídeo</label>
             </div>
             <div class="input-field col s6">
-              <input id="link-imagem" type="text" class="validate">
+              <input id="link-imagem" type="text" class="validate" ng-model="video.urlImagem">
               <label for="link-imagem">Link para Imagem</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <textarea id="resumo" class="materialize-textarea"></textarea>
+              <textarea id="resumo" class="materialize-textarea" ng-model="video.resumo"></textarea>
               <label for="resumo">Resumo</label>
             </div>
           </div>
-          <button class="btn-large waves-effect waves-light indigo darken-3 right" type="submit" name="action">Cadastrar
+          <button class="btn-large waves-effect waves-light indigo darken-3 right" type="submit" name="action" ng-click="newVideo(video)">Cadastrar
             <i class="material-icons right">send</i>
           </button>
         </form>
