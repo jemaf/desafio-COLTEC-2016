@@ -1,5 +1,48 @@
-var app = angular.module('eduCOLTEC', []);
+var app = angular.module('eduCOLTEC', ['ngRoute']);
 
+var hostAddress = '/backend/src/public/';
+
+/**
+ * Configuração das rotas
+ */
+app.config(['$routeProvider', function($routeProvider) {
+$routeProvider.when('/', 
+      { 
+        templateUrl: 'templates/main.html', 
+        controller: "VideosController", 
+        controllerAs: "videosCtrl"
+      }
+    )
+    .when('/newVideo', 
+      { 
+        templateUrl: 'templates/newVideo.html', 
+        controller: "VideosController", 
+        controllerAs: "videosCtrl"
+      }
+    )
+    .otherwise({redirectTo: '/'});
+}]);
+
+
+
+/**
+ * Diretiva para funcionamento da modal.
+ */
+app.directive('materialmodal', [function() {
+   return {
+      restrict: 'A',
+      link: function(scope, elem, attrs) {
+        scope.$watch("videos", function() {
+          $(elem).leanModal();
+        });
+      }
+   };
+}]);
+
+
+/**
+ * Filtro customizado para gerar intervalos
+ */
 app.filter('range', function() {
   return function(input, total) {
     total = parseInt(total);
@@ -12,93 +55,87 @@ app.filter('range', function() {
   };
 });
 
-app.controller('CursosController', function(){
-  this.cursos = [
-    {id: 0, nome: 'Informática'},
-    {id: 1, nome: 'Eletrônica'},
-    {id: 2, nome: 'Automação'},
-    {id: 3, nome: 'Química'},
-    {id: 4, nome: 'Análises Clínicas'}
-  ];
+
+/**
+ * Serviço para manipulação dos objetos do serviço
+ */
+app.factory('Service', function($http) {
+  var service = {};
+
+  service.get = function(url, callback) {
+    $http.get(url).then(function(response) {
+      var answer = response.data;
+      callback(answer);
+    });
+  };
+
+  service.post = function(url, data, callback) {
+    $http.post(url, data).then(function(response) {
+      var answer = response.data;
+      callback(answer);
+    });
+  };
+
+  return service;
 });
 
-app.controller('VideosController', function($sce, $scope) {
-  this.cursos = [
-    'Informática',
-    'Eletrônica',
-    'Automação',
-    'Química',
-    'Análises Clínicas'
-  ];
-  this.videos = [
-    {
-      id: 0,
-      curso: 0,
-      disciplina: 'Introdução a Programação',
-      titulo: 'Estruturas Condicionais',
-      url: 'http://www.youtube.com/embed/nKIu9yen5nc',
-      imagem: 'http://lorempixel.com/800/500/technics/',
-      resumo: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      comentarios: [
-        { id: 0, nota: 3, comentario: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' },
-        { id: 1, nota: 1, comentario: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' }
-      ]
-    },
-    {
-      id: 1,
-      curso: 0,
-      disciplina: 'Introdução a Programação',
-      titulo: 'Estruturas de Repetição',
-      url: 'http://www.youtube.com/embed/nKIu9yen5nc',
-      imagem: 'http://lorempixel.com/800/500/technics/',
-      resumo: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      comentarios: [
-        { id: 0, nota: 3, comentario: 'Gostei' },
-        { id: 1, nota: 1, comentario: 'Não gostei' }
-      ]
-    },
-    {
-      id: 2,
-      curso: 0,
-      disciplina: 'Introdução a Programação',
-      titulo: 'Funções',
-      url: 'http://www.youtube.com/embed/nKIu9yen5nc',
-      imagem: 'http://lorempixel.com/800/500/technics/',
-      resumo: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      comentarios: [
-        { id: 0, nota: 3, comentario: 'Gostei' },
-        { id: 1, nota: 1, comentario: 'Não gostei' }
-      ]
-    },
-    {
-      id: 3,
-      curso: 0,
-      disciplina: 'Introdução a Programação',
-      titulo: 'Structs',
-      url: 'http://www.youtube.com/embed/nKIu9yen5nc',
-      imagem: 'http://lorempixel.com/800/500/technics/',
-      resumo: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      comentarios: [
-        { id: 0, nota: 3, comentario: 'Gostei' },
-        { id: 1, nota: 1, comentario: 'Não gostei' }
-      ]
-    },
-    {
-      id: 4,
-      curso: 0,
-      disciplina: 'Desenvolvimento de Aplicações Web',
-      titulo: 'Angular JS',
-      url: 'http://www.youtube.com/embed/nKIu9yen5nc',
-      imagem: 'http://lorempixel.com/800/500/technics/',
-      resumo: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      comentarios: [
-        { id: 0, nota: 3, comentario: 'Gostei' },
-        { id: 1, nota: 1, comentario: 'Não gostei' }
-      ]
-    }
-  ];
 
+/**
+ * Controller para manipulação dos vídeos
+ *
+ * @param service serviço de manipulação dos vídeos
+ * @param $scope escopo do controller
+ * @param $sce serviço para anexar url do vídeo
+ */
+app.controller('VideosController', ['$sce', '$scope', 'Service', function($sce, $scope, service) {
+  var self = this;
+  self.videos = [];
+  self.cursos = [];
+
+  // recupera os vídeos
+  service.get(hostAddress + 'videos', function(answer) {
+    self.videos = answer;
+    updateVideoCourse(0);
+  });
+
+
+  /**
+   * método para atualizar url do vídeo da aula
+   *
+   * @param video a ser atualizado
+   */
   $scope.getVideoUrl = function (video) {
-      return $sce.trustAsResourceUrl(video.url);
+    return $sce.trustAsResourceUrl(video.urlVideo);
+  };
+
+
+  /**
+   * Função para recuperação dos dados do curso do vídeo
+   *
+   * @param index indice do video que será atualizado
+   */
+  function updateVideoCourse(index) {
+    if (index < self.videos.length) {
+      service.get(self.videos[index].curso, function(answer) {
+        self.videos[index].curso = answer;
+        updateVideoComments(index, 0);
+        updateVideoCourse(index + 1);
+      });
     }
-});
+  }
+
+
+  /**
+   * Função para recuperação dos comentários da função do curso
+   *
+   * @param index indice do video que será atualizado
+   */
+  function updateVideoComments(videoIndex, commentIndex) {
+    if (commentIndex < self.videos[videoIndex].comentarios.length) {
+      service.get(self.videos[videoIndex].comentarios[commentIndex], function(answer) {
+        self.videos[videoIndex].comentarios[commentIndex] = answer;
+        updateVideoComments(videoIndex, commentIndex + 1);
+      });
+    }
+  }
+}]);
