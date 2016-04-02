@@ -24,7 +24,7 @@ class Video
        $this->id = $data['id'];
     }
     $this->cursoId = $data['cursoId'];
-    $this->titulo = $data['disciplina'];
+    $this->titulo = $data['titulo'];
     $this->urlVideo = $data['urlVideo'];
     $this->urlImagem = $data['urlImagem'];
     $this->resumo = $data['resumo'];
