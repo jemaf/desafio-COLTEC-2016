@@ -3,7 +3,9 @@ class VideoDAO implements DefaultDAO
 {
   private function __construct() {
     if (!isset($_SESSION["videos"])) {
-      $_SESSION["videos"] = [];
+      $_SESSION["videos"] = array(
+                              '1' => new Video(array('id' => '1', 'cursoId' => 3, 'disciplina' => 'Introdução a Programação', 'titulo' => 'Estruturas de Repetição', 'urlVideo' => 'http://www.youtube.com/embed/XGSy3_Czz8k', 'urlImagem' => 'http://lorempixel.com/600/400', 'resumo' => 'Aula voltada para estruturas de repetição em C.'))
+                            );
     }
   }
 

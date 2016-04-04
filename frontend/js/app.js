@@ -191,6 +191,5 @@ app.controller('ComentariosController', ['$scope', 'Service', '$routeParams', '$
   // recupera um vídeo específico com base no ID da url
   service.get(hostAddress + 'videos/' + $routeParams.videoId, function(answer) {
     self.video = answer;
-    console.log(self.video);
   });
 }]);
