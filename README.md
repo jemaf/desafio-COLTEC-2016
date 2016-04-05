@@ -39,7 +39,7 @@ Para executar o projeto, você deverá navegar para a pasta raiz do projeto, e e
 php -S localhost:8000
 ```
 
-** OBS: Você precisa ter o interpretador do PHP 5.4 ou superior instalado na máquina. **
+**OBS: Você precisa ter o interpretador do PHP 5.4 ou superior instalado na máquina.**
 
 Esse comando irá criar um servidor virtual com base nos arquivos do diretório onde o comando foi executado (no nosso caso, todo o projeto).
 
