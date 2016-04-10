@@ -55,6 +55,26 @@ $app->get('/cursos/{id}', function (Request $request, Response $response, $args)
  */
 
  /**
+  * Rota para cadastrar um vídeo.
+  *
+  * Campos do comentário são enviados no body da requisição como JSON.
+  */
+ $app->post('/videos', function (Request $request, Response $response) {
+   $data = $request->getParsedBody();
+
+   $videoDAO = VideoDAO::getInstance();
+   $result = $videoDAO->insert($data);
+
+   if ($result) {
+     $newVideo = $videoDAO->getById($result->id);
+     return $response->withJson($newVideo);
+   } else {
+     $response->setStatusCode(400);
+     return $response->withJson(array("message" => "Erro durante cadastro de novo vídeo"));
+   }
+ });
+
+ /**
   * Rota para recuperar todos os vídeos
   */
 $app->get('/videos', function (Request $request, Response $response) {
