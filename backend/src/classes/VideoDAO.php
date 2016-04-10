@@ -20,9 +20,9 @@ class VideoDAO implements DefaultDAO
   }
 
 
-  public function delete($object) {
-    if ($_SESSION["videos"][$object->id]) {
-      unset($_SESSION["videos"][$object->id]);
+  public function delete($id) {
+    if ($_SESSION["videos"][$id]) {
+      unset($_SESSION["videos"][$id]);
       return true;
     }
 
@@ -34,17 +34,19 @@ class VideoDAO implements DefaultDAO
     $_SESSION["videos"] = [];
   }
 
+  public function destroy() {
+    session_destroy();
+  }
 
-  public function update($object) {
-    $video = $_SESSION["videos"][$object->id];
-
+  public function update($object, $id) {
+    $video = $_SESSION["videos"][$id];
     if ($video) {
-      $video->cursoId = $object->cursoId ? $object->cursoId : $video->cursoId;
-      $video->titulo = $object->titulo ? $object->titulo : $video->titulo;
-      $video->urlVideo = $object->urlVideo ? $object->urlVideo : $video->urlVideo;
-      $video->urlImagem = $object->urlImagem ? $object->urlImagem : $video->urlImagem;
-      $video->resumo = $object->resumo ? $object->resumo : $video->resumo;
-      $video->disciplina = $object->disciplina ? $object->disciplina : $video->disciplina;
+      $video->cursoId = $object['cursoId'] ? $object['cursoId'] : $video->cursoId;
+      $video->titulo = $object['titulo'] ? $object['titulo'] : $video->titulo;
+      $video->urlVideo = $object['urlVideo'] ? $object['urlVideo'] : $video->urlVideo;
+      $video->urlImagem = $object['urlImagem'] ? $object['urlImagem'] : $video->urlImagem;
+      $video->resumo = $object['resumo'] ? $object['resumo'] : $video->resumo;
+      $video->disciplina = $object['disciplina'] ? $object['disciplina'] : $video->disciplina;
 
       return true;
     }

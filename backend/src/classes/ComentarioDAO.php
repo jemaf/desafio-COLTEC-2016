@@ -36,9 +36,12 @@ class ComentarioDAO implements DefaultDAO {
     $_SESSION["comentarios"] = [];
   }
 
+  public function destroy() {
+    session_destroy();
+  }
 
-  public function update($object) {
-    $comentario = $_SESSION["comentarios"][$object->id];
+  public function update($object, $id) {
+    $comentario = $_SESSION["comentarios"][$id];
 
     if ($comentario) {
       $comentario->nota = $object->nota ? $object->nota : $comentario->nota;

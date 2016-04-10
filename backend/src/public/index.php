@@ -57,7 +57,7 @@ $app->get('/cursos/{id}', function (Request $request, Response $response, $args)
  /**
   * Rota para cadastrar um vídeo.
   *
-  * Campos do comentário são enviados no body da requisição como JSON.
+  * Campos do vídeo são enviados no body da requisição como JSON.
   */
  $app->post('/videos', function (Request $request, Response $response) {
    $data = $request->getParsedBody();
@@ -141,6 +141,26 @@ $app->delete('/videos', function (Request $request, Response $response){
   return $response->withJson(array("message" => "Vídeos excluídos com sucesso"));
 });
 
+/**
+* Rota para editar um video
+*/
+$app->put('/videos/{id}', function (Request $request, Response $response, $args) {
+  $data = $request->getParsedBody();
+  $videoDAO = VideoDAO::getInstance();
+  $update = $videoDAO->update($data, $args['id']);
+  if($update)
+    return $response->withJson(array("message" => "Vídeo editado com sucesso"));
+  return $response->withJson(array("message" => "Erro na edição do vídeo"));
+  });
+
+/**
+* Rota para excluir um video específico
+*/
+$app->delete('/videos/{id}', function (Request $request, Response $response, $args) {
+  $videoDAO = VideoDAO::getInstance();
+  $videoDAO->delete($args['id']);
+  return $response->withJson(array("message" => "Vídeo deletado"));
+  });
 
 /**
  * ---------------------------------------------------------------------------
@@ -215,5 +235,16 @@ $app->delete('/comentarios', function (Request $request, Response $response){
 
   return $response->withJson(array("message" => "Comentários excluídos com sucesso"));
 });
-session_destroy($_SESSION);
+
+/**
+* Rota para limpar a sessão (excluir todos os objetos)
+*/
+$app->get('/clear', function (Request $request, Response $response){
+  $comentarioDAO = ComentarioDAO::getInstance();
+  $videoDAO = VideoDAO::getInstance();
+  $comentarioDAO->destroy();
+  $videoDAO->destroy();
+  return $response->withJson(array("message" => "Sessão fechada"));
+});
+
 $app->run();

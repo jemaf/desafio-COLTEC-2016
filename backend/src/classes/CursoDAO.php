@@ -51,8 +51,8 @@ class CursoDAO implements DefaultDAO
   }
 
 
-  public function update($object) {
-    $curso = $_SESSION["cursos"][$object->id];
+  public function update($object, $id) {
+    $curso = $_SESSION["cursos"][$id];
 
     if ($curso) {
       $curso->nome = $object->nome ? $object->nome : $curso->nome;

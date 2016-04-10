@@ -16,7 +16,7 @@ interface DefaultDAO {
    *
    * @param $object objeto a ser excluído
    */
-  public function delete($object);
+  public function delete($id);
 
 
   /**
@@ -25,11 +25,16 @@ interface DefaultDAO {
   public function deleteAll();
 
   /**
+  *  Limpa a sessão
+  */
+  public function destroy();
+
+  /**
    * Atualiza um objeto
    *
    * @param $object objeto a ser atualizado
    */
-  public function update($object);
+  public function update($object, $id);
 
   /**
    * Recupera um objeto pelo id
