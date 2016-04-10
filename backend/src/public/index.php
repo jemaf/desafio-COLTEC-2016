@@ -13,6 +13,9 @@ $app = new \Slim\App;
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
 
 /**
  * ---------------------------------------------------------------------------
@@ -192,5 +195,5 @@ $app->delete('/comentarios', function (Request $request, Response $response){
 
   return $response->withJson(array("message" => "Comentários excluídos com sucesso"));
 });
-
+session_destroy($_SESSION);
 $app->run();
