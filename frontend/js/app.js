@@ -1,3 +1,4 @@
+
 var app = angular.module('eduCOLTEC', ['ngRoute']);
 
 var hostAddress = '/backend/src/public/';
@@ -134,6 +135,7 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
    *  @param video novo video a ser cadastrado
    */
   $scope.newVideo = function(video) {
+    video.urlVideo = formatVideoUrl(video.urlVideo_un)
     video.cursoId = video.curso.id;
     service.post(hostAddress + 'videos', video, function(answer) {
       if (answer.id !== null) {
@@ -143,6 +145,26 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
     });
   }
 
+  /**
+   * Função para formatar links de videos para exibição
+   *
+   * @param url URL dos videos a serem formatados
+   */
+  function formatVideoUrl(url)
+  {
+    var format_url;
+
+    if (url.search("watch?v=") !== -1){
+      format_url = url.replace("watch?v=","embed/");
+    } else if (url.search("youtu.be/") !== -1){
+      format_url = url.replace("youtu.be/","youtube.com/embed/");
+    } else if (url.search("youtube.com/embed") !== -1){
+      null;
+    } 
+
+
+    return format_url;
+  }
 
   /**
    * Função para recuperação dos dados do curso do vídeo
@@ -175,7 +197,7 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
   }
 }]);
 
-
+//---------------------------------------------------------------------------------------------------------------------//
 
 /**
  * Controller para manipulação dos comentários
@@ -186,6 +208,24 @@ app.controller('ComentariosController', ['$scope', 'Service', '$routeParams', '$
   var self = this;
   self.video = [];
   $scope.comentario = {};
+
+
+    /**
+     *  Função para cadastro de novo comentario
+     *
+     *  @param comment comentário a ser cadastrado
+     */
+    $scope.newComment = function(comentario,id) {
+      comentario.videoId = id;
+
+      service.post(hostAddress + 'comentarios',comentario, function(answer) {
+        if (answer.id !== null) {
+          alert("Comentário cadastrado com sucesso");
+          comentario = null;
+          $location.path('/');
+        }
+      });
+    }
 
 
   // recupera um vídeo específico com base no ID da url
