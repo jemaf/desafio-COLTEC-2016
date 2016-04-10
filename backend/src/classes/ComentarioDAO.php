@@ -37,7 +37,8 @@ class ComentarioDAO implements DefaultDAO {
   }
 
   public function destroy() {
-    session_destroy();
+    if($_SESSION)
+      session_destroy();
   }
 
   public function update($object, $id) {

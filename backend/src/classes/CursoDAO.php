@@ -50,6 +50,10 @@ class CursoDAO implements DefaultDAO
     $_SESSION["cursos"] = [];
   }
 
+  public function destroy() {
+    if($_SESSION)
+      session_destroy();
+  }
 
   public function update($object, $id) {
     $curso = $_SESSION["cursos"][$id];
