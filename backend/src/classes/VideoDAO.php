@@ -1,6 +1,13 @@
 <?php
 class VideoDAO implements DefaultDAO
 {
+
+  private function __construct() {
+    if (!isset($_SESSION["videos"])) {
+      $_SESSION["videos"] = [];
+    }
+  }
+
   public static function getInstance() {
         static $instance = null;
         if (null === $instance) {
@@ -35,7 +42,8 @@ class VideoDAO implements DefaultDAO
   }
 
   public function destroy() {
-    session_destroy();
+    if($_SESSION)
+      session_destroy();
   }
 
   public function update($object, $id) {
