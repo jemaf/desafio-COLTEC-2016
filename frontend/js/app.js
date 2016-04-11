@@ -158,9 +158,8 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
       format_url = url.replace("watch?v=","embed/");
     } else if (url.search("youtu.be/") !== -1){
       format_url = url.replace("youtu.be/","youtube.com/embed/");
-    } else if (url.search("youtube.com/embed") !== -1){
-      null;
-    } 
+    } else if (url.search("youtube.com/embed/") !== -1){
+    } else{}
 
 
     return format_url;
@@ -215,8 +214,8 @@ app.controller('ComentariosController', ['$scope', 'Service', '$routeParams', '$
      *
      *  @param comment comentário a ser cadastrado
      */
-    $scope.newComment = function(comentario,id) {
-      comentario.videoId = id;
+    $scope.newComment = function(comentario) {
+      comentario.videoId = $routeParams.videoId;
 
       service.post(hostAddress + 'comentarios',comentario, function(answer) {
         if (answer.id !== null) {
