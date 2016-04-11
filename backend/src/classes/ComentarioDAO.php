@@ -2,6 +2,12 @@
 
 class ComentarioDAO implements DefaultDAO {
 
+  private function __construct() {
+    if (!isset($_SESSION["comentarios"])) {
+      $_SESSION["comentarios"] = [];
+    }
+  }
+
   public static function getInstance() {
         static $instance = null;
         if (null === $instance) {

@@ -1,6 +1,13 @@
 <?php
 class VideoDAO implements DefaultDAO
 {
+
+  private function __construct() {
+    if (!isset($_SESSION["videos"])) {
+      $_SESSION["videos"] = [];
+    }
+  }
+
   public static function getInstance() {
         static $instance = null;
         if (null === $instance) {

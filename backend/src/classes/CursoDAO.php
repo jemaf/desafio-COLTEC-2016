@@ -45,6 +45,10 @@ class CursoDAO implements DefaultDAO
     return false;
   }
 
+  public function destroy() {
+    session_destroy();
+  }
+
 
   public function deleteAll() {
     $_SESSION["cursos"] = [];
