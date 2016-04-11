@@ -185,15 +185,25 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
 app.controller('ComentariosController', ['$scope', 'Service', '$routeParams', '$location', function($scope, service, $routeParams, $location) {
   var self = this;
   self.video = [];
-  $scope.comentario = {};
-
-  $scope.newComment() = function(comentario) {
-
-  }
-
+  $scope.coment = {};
 
   // recupera um vídeo específico com base no ID da url
   service.get(hostAddress + 'videos/' + $routeParams.videoId, function(answer) {
     self.video = answer;
   });
+
+  /**
+   *  Função para cadastro de novo comentario
+   *
+   */
+  $scope.newComment = function(coment) {
+    coment.videoId = $routeParams.videoId;
+    service.post(hostAddress + 'comentarios', coment, function(answer) {
+      if(answer.id !== null){
+          alert("Comentario registrado com sucesso");
+          $location.path('/');
+      }
+    });
+  }
+
 }]);
