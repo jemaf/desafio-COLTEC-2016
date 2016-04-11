@@ -128,23 +128,6 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
     return $sce.trustAsResourceUrl(video.urlVideo);
   };
 
-
-  /**
-   *  Função para cadastro de novo vídeo
-   *
-   *  @param video novo video a ser cadastrado
-   */
-  $scope.newVideo = function(video) {
-    video.urlVideo = formatVideoUrl(video.urlVideo_un)
-    video.cursoId = video.curso.id;
-    service.post(hostAddress + 'videos', video, function(answer) {
-      if (answer.id !== null) {
-        alert("Cadastrado com sucesso");
-        $location.path('/');
-      }
-    });
-  }
-
   /**
    * Função para formatar links de videos para exibição
    *
@@ -154,15 +137,38 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
   {
     var format_url;
 
+
+
     if (url.search("watch?v=") !== -1){
       format_url = url.replace("watch?v=","embed/");
+                  alert("NORMAL");
     } else if (url.search("youtu.be/") !== -1){
+                  alert("short");
       format_url = url.replace("youtu.be/","youtube.com/embed/");
     } else if (url.search("youtube.com/embed/") !== -1){
-    } else{}
+                  alert("pronto");
+
+    } else {            alert("default");}
 
 
     return format_url;
+  }
+
+  /**
+   *  Função para cadastro de novo vídeo
+   *
+   *  @param video novo video a ser cadastrado
+   */
+  $scope.newVideo = function(video) {
+
+    video.urlVideo = formatVideoUrl(video.urlVideo_un);
+    video.cursoId = video.curso.id;
+    service.post(hostAddress + 'videos', video, function(answer) {
+      if (answer.id !== null) {
+        alert("Cadastrado com sucesso");
+        $location.path('/');
+      }
+    });
   }
 
   /**
