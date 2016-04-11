@@ -13,6 +13,15 @@ $app = new \Slim\App;
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+header("Cache-control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+
+//Aqui nós temos duas funções que são usadas para sempre limpar o cache e retirar os comentários e os vídeos
+//para testes está comentado, já que não foi implementado ainda um método de guarda informações tipo MySQL. :* beijo profs
+//session_start();
+//session_regenerate_id(true);
+
 
 /**
  * ---------------------------------------------------------------------------
@@ -105,6 +114,29 @@ $app->get('/videos/{id}', function (Request $request, Response $response, $args)
   $video->curso = ($cursoURL . "" . $video->getCursoId());
 
   return $response->withJson($video);
+});
+
+
+
+
+/**
+ * Rota para salvar um comentário.
+ *
+ * Campos do comentário são enviados no body da requisição como JSON.
+ */
+$app->post('/videos', function (Request $request, Response $response) {
+  $data = $request->getParsedBody();
+
+  $videoDAO = VideoDAO::getInstance();
+  $result = $videoDAO->insert($data);
+
+  if ($result) {
+    $newVideo = $videoDAO->getById($result->id);
+    return $response->withJson($newVideo);
+  } else {
+    $response->setStatusCode(400);
+    return $response->withJson(array("message" => "Erro durante cadastro de novo comentario"));
+  }
 });
 
 

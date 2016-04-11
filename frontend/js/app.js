@@ -187,6 +187,15 @@ app.controller('ComentariosController', ['$scope', 'Service', '$routeParams', '$
   self.video = [];
   $scope.comentario = {};
 
+  $scope.newComment = function(comment) {
+    comment.videoId = $routeParams.videoId;
+    service.post(hostAddress + 'comentarios', comment, function(answer) {
+      if (answer.id !== null){
+        alert("Cadastrado com sucesso");
+        $location.path('/');
+      }
+    });
+  }
 
   // recupera um vídeo específico com base no ID da url
   service.get(hostAddress + 'videos/' + $routeParams.videoId, function(answer) {
