@@ -135,9 +135,10 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
    */
   $scope.newVideo = function(video) {
     video.cursoId = video.curso.id;
+
     service.post(hostAddress + 'videos', video, function(answer) {
       if (answer.id !== null) {
-        alert("Cadastrado com sucesso");
+        Materialize.toast('Vídeo cadastrado com sucesso!', 2000,'rounded');
         $location.path('/');
       }
     });
