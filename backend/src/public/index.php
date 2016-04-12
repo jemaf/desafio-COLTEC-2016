@@ -120,7 +120,7 @@ $app->get('/videos/{id}', function (Request $request, Response $response, $args)
 
 
 /**
- * Rota para salvar um vídeo.
+ * Rota para salvar um comentário.
  *
  * Campos do comentário são enviados no body da requisição como JSON.
  */
