@@ -192,7 +192,7 @@ app.controller('ComentariosController', ['$scope', 'Service', '$routeParams', '$
     comment.videoId = $routeParams.videoId;
     service.post(hostAddress + 'comentarios', comment, function(answer) {
       if (answer.id !== null){
-        alert("Cadastrado com sucesso");
+        Materialize.toast('Obrigado por comentar!', 2000,'rounded');
         $location.path('/');
       }
     });
