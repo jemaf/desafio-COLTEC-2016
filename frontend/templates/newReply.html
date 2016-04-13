@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="section">
+    <div class="row">
+      <div class="col s8 offset-s2">
+        <h2>Nova Resposta</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s8 offset-s2">
+        <form method="post">
+          <div class="row">
+            <div class=" col s12">
+              <label for="comentario">Comentário</label>
+              <input id="comentario" type="text" class="validate" ng-model="respostasCtrl.comentario.comentario" disabled><!--Input desabilitado que deveria exibir o comentário ao qual se quer responder-->
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea id="resposta" class="materialize-textarea" ng-model = "resposta.resposta"></textarea>
+              <label for="resposta">Resposta</label>
+            </div>
+          </div>
+          <button class="btn-large waves-effect waves-light indigo darken-3 right" type="submit" name="action" ng-click="newReply(resposta)">Cadastrar<!--Envia o objeto 'resposta' criado como parametro para a função 'newReply()' em app.js-->
+            <i class="material-icons right">send</i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

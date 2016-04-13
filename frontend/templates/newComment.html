@@ -11,24 +11,24 @@
           <div class="row">
             <div class=" col s12">
               <label for="video">Vídeo</label>
-              <input id="video" type="text" class="validate" ng-model="comentariosCtrl.video.disciplina" disabled>
+              <input id="video" type="text" class="validate" ng-model="comentariosCtrl.video.disciplina" disabled><!--Um input desabilitado que exibe a disciplina do vídeo em que se está comentando-->
             </div>
           </div>
           <div class="row">
             <div class="col s3">
               <label>Nota</label>
-              <select class="browser-default">
+              <select class="browser-default" ng-model = "comment.nota">
                 <option ng-repeat="index in [1,2,3,4,5]">{{index}}</option>
               </select>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <textarea id="comentario" class="materialize-textarea"></textarea>
+              <textarea id="comentario" class="materialize-textarea" ng-model = "comment.comentario"></textarea>
               <label for="comentario">Comentário</label>
             </div>
           </div>
-          <button class="btn-large waves-effect waves-light indigo darken-3 right" type="submit" name="action">Cadastrar
+          <button class="btn-large waves-effect waves-light indigo darken-3 right" type="submit" name="action" ng-click="newComment(comment)">Cadastrar<!--Envia o objeto comentario como parametro para a função 'newComment()' em app.js-->
             <i class="material-icons right">send</i>
           </button>
         </form>
