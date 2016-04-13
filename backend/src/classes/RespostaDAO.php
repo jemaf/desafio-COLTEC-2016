@@ -1,10 +1,10 @@
 <?php
 
-class ComentarioDAO implements DefaultDAO {
+class RespostaDAO implements DefaultDAO {
 
   private function __construct() {
-    if (!isset($_SESSION["comentarios"])) {
-      $_SESSION["comentarios"] = [];
+    if (!isset($_SESSION["respostas"])) {
+      $_SESSION["respostas"] = [];
     }
   }
 
@@ -20,17 +20,17 @@ class ComentarioDAO implements DefaultDAO {
 
 
   public function insert($object) {
-    $novoComentario = new Comentario($object);
-    $novoComentario->id = count($_SESSION["comentarios"]);
-    $_SESSION["comentarios"][] = $novoComentario;
+    $novaResposta = new Resposta($object);
+    $novaResposta->id = count($_SESSION["respostas"]);
+    $_SESSION["respostas"][] = $novaResposta;
 
-    return $novoComentario;
+    return $novaResposta;
   }
 
 
   public function delete($object) {
-    if ($_SESSION["comentarios"][$object->id]) {
-      unset($_SESSION["comentarios"][$object->id]);
+    if ($_SESSION["respostas"][$object->id]) {
+      unset($_SESSION["respostas"][$object->id]);
 
       return true;
     }
@@ -40,17 +40,17 @@ class ComentarioDAO implements DefaultDAO {
 
 
   public function deleteAll() {
-    $_SESSION["comentarios"] = [];
+    $_SESSION["respostas"] = [];
   }
 
 
   public function update($object) {
-    $comentario = $_SESSION["comentarios"][$object->id];
+    $resposta = $_SESSION["respostas"][$object->id];
 
-    if ($comentario) {
-      $comentario->nota = $object->nota ? $object->nota : $comentario->nota;
-      $comentario->comentario = $object->comentario ? $object->comentario : $comentario->comentario;
-      $comentario->videoId = $object->videoId ? $object->videoId : $comentario->videoId;
+    if ($resposta) {
+
+      $resposta->resposta = $object->resposta ? $object->resposta : $resposta->resposta;
+      $resposta->comentarioId = $object->comentarioId ? $object->comentarioId : $resposta->comentarioId;
 
       return true;
     }
@@ -60,12 +60,12 @@ class ComentarioDAO implements DefaultDAO {
 
 
   public function getById($id) {
-    return $_SESSION["comentarios"][$id];
+    return $_SESSION["respostas"][$id];
   }
 
 
   public function getBy($data) {
-    return array_filter($_SESSION["comentarios"], function($var) use($data) {
+    return array_filter($_SESSION["respostas"], function($var) use($data) {
       return
               ($var->getId() == $data['id'] || $data['id'] === NULL) &&
               ($var->getNota() == $data['nota'] || $data['nota'] === NULL) &&
@@ -76,6 +76,6 @@ class ComentarioDAO implements DefaultDAO {
 
 
   public function getAll() {
-    return $_SESSION["comentarios"];
+    return $_SESSION["respostas"];
   }
 }

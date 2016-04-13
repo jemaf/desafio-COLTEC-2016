@@ -1,5 +1,5 @@
 <!-- Banner principal -->
-<div class="parallax-container">
+<div class="parallax-container"> <!--Parallax fica bonito demaaais-->
   <div class="section" id="index-banner">
     <div class="container">
       <h1 class="header center white-text">Portal eduCOLTEC</h1>
@@ -7,7 +7,7 @@
         <h5 class="header col s12 light">O portal educativo do COLTEC!!</h5>
       </div>
       <div class="row center">
-        <a href="#/novoVideo" class="btn-large waves-effect waves-light indigo darken-3">Novo Vídeo</a>
+        <a href="#/novoVideo" class="btn-large waves-effect waves-light indigo darken-3">Novo Vídeo</a><!--Link para adicionar novos videos, redireciona para a página /novoVideo-->
       </div>
     </div>
     <div class="parallax"><img src="public/images/coltec.png" alt="Unsplashed background img 1"></div>
@@ -22,16 +22,16 @@
     <div class="row center light">
       <div class="col m4 s12">
         <div class="icon-block">
-          <h2 class="center indigo-text"><i class="material-icons medium">video_label</i></h2>
+          <h2 class="center indigo-text"><i class="material-icons medium">video_label</i></h2><!--ícone do anuncio de vídeos-->
           <h5>Assista</h5>
           <p class="light">
             Aprenda quando e onde quiser assistindo um dos {{videosCtrl.videos.length}} vídeos disponibilizados no portal!!
-          </p>
+          </p><!--O trecho "{{videosCtrl.videos.length}}" acessa o tamanho de vetor de vídeos no arquivo app.js [linhas: 105 e 106]-->
         </div>
       </div>
       <div class="col m4 s12">
         <div class="icon-block">
-          <h2 class="center indigo-text"><i class="material-icons medium">star</i></h2>
+          <h2 class="center indigo-text"><i class="material-icons medium">star</i></h2><!--A mesma apresentação da parte de cima-->
           <h5>Avalie e Compartilhe</h5>
           <p class="light">
             Gostou do vídeo? Avalie e compartilhe com seus amigos!!
@@ -40,7 +40,7 @@
       </div>
       <div class="col m4 s12">
         <div class="icon-block">
-          <h2 class="center indigo-text"><i class="material-icons medium">add_to_queue</i></h2>
+          <h2 class="center indigo-text"><i class="material-icons medium">add_to_queue</i></h2><!--Leia o comentário anterior-->
           <h5>Adicione novos vídeos</h5>
           <p class="light">
             Deseja adicionar um novo vídeo que viu na web? Deseja disponibilizar um vídeo seu? Basta cadastrá-lo no portal!!
@@ -68,61 +68,118 @@
   <div class="container">
     <div class="section">
       <div class="row no-pad-bot">
-        <div class="col l4 m6 s12" ng-repeat="video in videosCtrl.videos">
-          <div class="card hoverable medium">
-            <div class="card-image waves-effect waves-block waves-light">
-              <img class="activator" ng-src="{{video.urlImagem}}">
+<!--================================================================Inserção efetiva do vídeo========================================================================================================================================-->
+        <div class="col l4 m6 s12" ng-repeat="video in videosCtrl.videos"><!--"ng-repeat" insere 'repetidamente' todo 'video in videosCtrl.videos' na div especificada-->
+          <div class="card hoverable medium"><!--A div é um 'card'-->
+            <div class="card-image waves-effect waves-block waves-light"><!--O card contém uma imagem-->
+              <img class="activator" ng-src="{{video.urlImagem}}"><!--A fonte da imagem vem de 'video.urlImagem' do objeto 'vídeo' listado atualmente-->
             </div>
             <div class="card-content">
-              <span class="card-title activator grey-text text-darken-4">{{video.curso.nome}}<i class="material-icons right">more_vert</i></span><br>
-              <b>{{video.disciplina}}</b><br>
-              <span>{{video.titulo}}</span>
+              <span class="card-title activator grey-text text-darken-4">{{video.curso.nome}}<i class="material-icons right">more_vert</i></span><br><!--O card também contém um tiítulo de curso que é otido de 'video.curso.nome' do objeto 'video' atual, e ao lado, um ícone que abre opções do vídeo-->
+              <b>{{video.disciplina}}</b><br><!--Em seguida é listada a disciplina do objeto 'video'-->
+              <span>{{video.titulo}}</span><!--Da mesma forma, o título do vídeo-->
             </div>
-            <div class="card-reveal">
+            <div class="card-reveal"> <!--A div que é revelado ao clicar nas informações de um vídeo-->
               <span class="card-title grey-text text-darken-4">Resumo<i class="material-icons right">close</i></span>
-              <p>{{video.resumo}}</p>
+              <p>{{video.resumo}}</p><!--Busca o atributo resumo do objeto 'video' atual-->
             </div>
-            <div class="card-action indigo lighten-5">
-              <a href="#video-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Vídeo</a>
-              <a href="#comment-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Comentários</a>
+            <div class="card-action indigo lighten-5"><!--Div com opções para a brir o vídeo ou abrir comentários-->
+              <a href="#video-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Vídeo</a><!--Botão que abre o modal com o iframe do vídeo '#video-{{video.id}}' é a referência para o id do vídeo a ser aberto.-->
+              <a href="#comment-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Comentários</a><!--Botão que abre o modal com os comentários.-->
             </div>
           </div>
         </div>
+<!--====================================================================================================================================================================================================================-->
       </div>
     </div>
   </div>
 
   <!-- Modais para exibição dos vídeos e comentários -->
-  <div ng-repeat="video in videosCtrl.videos">
-    <div id="video-{{video.id}}" class="modal">
+  <div ng-repeat="video in videosCtrl.videos"><!--Essa é a div que cria o modal com a exibição do vídeo-->
+    <div id="video-{{video.id}}" class="modal"><!--O id é buscado do arquivo json-->
       <div class="modal-content" style="padding:0;">
         <div class="video-container">
-          <iframe width="800" height="500" src="{{getVideoUrl(video)}}" frameborder="0"></iframe>
+          <iframe width="800" height="500" src="{{getVideoUrl(video)}}" frameborder="0"></iframe><!--'{{getVideoUrl(video)}}' é o método que recebe o url do vídeo a ser acessado e, nesse caso, o adiciona ao 'src'-->
         </div>
       </div>
       <div class="modal-footer">
-        <a class=" modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+        <a class=" modal-action modal-close waves-effect waves-green btn-flat">Fechar</a><!--Botão que fecha o modal do vídeo-->
       </div>
     </div>
-    <div id="comment-{{video.id}}" class="modal modal-fixed-footer">
+    <div id="comment-{{video.id}}" class="modal modal-fixed-footer"><!--Essa é a div que cria o modal com a exibição dos comentários-->
       <div class="modal-content">
         <h4>Comentários</h4>
-        <div class="row" ng-repeat="comentario in video.comentarios">
+        <div class="row" ng-repeat="comentario in video.comentarios"><!--Percorre e insere os comentários armazenados no atributo 'comentários' do objeto vídeo-->
           <div class="col s12">
-            <b>Nota: </b> <i class="material-icons tiny" ng-repeat="n in [] | range:comentario.nota">grade</i>
+            <b>Nota: </b> <i class="material-icons tiny" ng-repeat="n in [] | range:comentario.nota">grade</i><!--Exibe o ícone de qualificação do vídeo-->
           </div>
           <div class="col s12">
             <b>Comentário</b>
             <p>
-              {{comentario.comentario}}
+              {{comentario.comentario}}<!--Recebe e imrpime o comentário-->
             </p>
+            <!--
+              A tag abaixo é uma falha miserável de uma tentativa de incluir uma
+              função de responder comentários, aparentemente, o problema foi um
+              erro "$interpolate:noconcat", se pudessem me explicar qual foi meu
+              erro, seria show de bola.
+            -->
+            <a href"#/novaResposta/-{{comentario.id}}" class"modal-action modal-close waves-efect btn-flat">Responder</a>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <a href="#/novoComentario/{{video.id}}" class="modal-action modal-close waves-effect waves-green btn-flat">Novo</a>
-        <a class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+  <!--Botão que redireciona a página de comentários--> <!--Vou modificar um pouco e abrir a página para novo comentário em formato modal-->
+        <a href="#novoComentario-{{video.id}}" class="modal-action modal-close waves-effect btn-flat modal-trigger">Novo</a><!--Botão que deveria, supostamente, abir o modal para novo comentário-->
+        <!-- <a href="#/novoComentario/-{{video.id}}" class="modal-action modal-close waves-effect btn-flat">Novo</a> -->
+        <a class="modal-action modal-close waves-effect btn-flat">Fechar</a><!--Botão que fecha o modal-->
       </div>
+    </div>
+  </div>
+<!--
+  Tentei fazer com que ao clicar em "novo comentário" se abrisse um modal com o
+  formulário ao invés de redirecionar o usuário para a página com o formulário,
+  sem sucesso até o momento desse commit. Talvez eu tenho conseguido até o prazo
+  de entrega, caso contrário, me respondam pelamordedeus por que isso não funciona.
+  Parece que o erro é o mesmo $interpolate:noconcat.
+-->
+<!--Modal para novo comentário-->
+  <div id="novoComentario-{{video.id}}" class="modal modal-fixed-footer"><!--Contrução do modal para novo comentário (Falha miserável)-->
+    <div class="modal-content">
+      <div class="col s8 offset-s2">
+        <h2>Novo Comentário</h2>
+      </div>
+<!--Inserção do comentário-->
+      <div class="row">
+        <div class="col s8 offset-s2">
+          <form method="post">
+            <div class="row">
+              <div class=" col s12">
+                <label for="video">Vídeo</label>
+                <input id="video" type="text" class="validate" ng-model="comentariosCtrl.video.disciplina" disabled>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col s3">
+                <label>Nota</label>
+                <select class="browser-default" ng-model = "comment.nota">
+                  <option ng-repeat="index in [1,2,3,4,5]">{{index}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <textarea id="comentario" class="materialize-textarea" ng-model = "comment.comentario"></textarea>
+                <label for="comentario">Comentário</label>
+              </div>
+            </div>
+            <button class="btn-large waves-effect waves-light indigo darken-3 right" type="submit" name="action" ng-click="newComment(comment)">Cadastrar
+              <i class="material-icons right">send</i>
+            </button>
+          </form>
+        </div>
+      </div>
+<!--Fim da inserção do comentário-->
     </div>
   </div>
   <!-- Fim das modais de vídeo e comentários -->
