@@ -121,7 +121,11 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
 
   $scope.preencha = function(){
     Materialize.toast('Preencha todos os campos!', 3000, 'rounded');
-  }
+  };
+
+  $scope.getCommentUrl = function(video){
+    return '#/novoComentario/' + video.id;
+  };
 
   /**
    * método para atualizar url do vídeo da aula
