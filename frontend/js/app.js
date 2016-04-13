@@ -1,5 +1,5 @@
 
-var app = angular.module('eduCOLTEC', ['ngRoute']);
+var app = angular.module('COLTECADEMY', ['ngRoute']);
 
 var hostAddress = '/backend/src/public/';
 
@@ -137,19 +137,13 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
   {
     var format_url;
 
-
-
-    if (url.search("watch?v=") !== -1){
-      format_url = url.replace("watch?v=","embed/");
-                  alert("NORMAL");
-    } else if (url.search("youtu.be/") !== -1){
-                  alert("short");
-      format_url = url.replace("youtu.be/","youtube.com/embed/");
-    } else if (url.search("youtube.com/embed/") !== -1){
-                  alert("pronto");
-
-    } else {            alert("default");}
-
+    if (url.search("youtu.be/") !== -1){
+        format_url = url.replace("youtu.be/","youtube.com/embed/");
+        alert("short");
+    } else {
+        format_url = url.replace("watch?v=","embed/");
+        alert("NORMAL");
+    }
 
     return format_url;
   }
