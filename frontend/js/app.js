@@ -2,6 +2,8 @@ var app = angular.module('eduCOLTEC', ['ngRoute']);
 
 var hostAddress = '/backend/src/public/';
 
+
+
 /**
  * Configuração das rotas
  */
@@ -117,6 +119,9 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
     self.cursos = answer;
   });
 
+  $scope.preencha = function(){
+    Materialize.toast('Preencha todos os campos!', 3000, 'rounded');
+  }
 
   /**
    * método para atualizar url do vídeo da aula
@@ -135,12 +140,15 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
    */
   $scope.newVideo = function(video) {
     video.cursoId = video.curso.id;
-    service.post(hostAddress + 'videos', video, function(answer) {
-      if (answer.id !== null) {
-        alert("Cadastrado com sucesso");
-        $location.path('/');
-      }
-    });
+    if(video.titulo == null || video.disciplina == null || video.urlVideo == null || video.urlImagem == null || video.resumo == null) //if que confere se todos os campos essenciais foram preenchidos
+      Materialize.toast('Preencha todos os campos!', 3000, 'rounded'); //alerta de erro
+    else
+      service.post(hostAddress + 'videos', video, function(answer) {
+        if (answer.id !== null) {
+          Materialize.toast('Cadastro de vídeo realizado com sucesso!', 3000, 'rounded'); //alerta de cadastro
+          $location.path('/');
+        }
+      });
   }
 
 
@@ -198,9 +206,12 @@ app.controller('ComentariosController', ['$scope', 'Service', '$routeParams', '$
    */
   $scope.newComment = function(coment) {
     coment.videoId = $routeParams.videoId;
+    if(coment.nota == null || coment.comentario == null)
+      Materialize.toast('Preencha todos os campos!', 3000, 'rounded');
+    else
     service.post(hostAddress + 'comentarios', coment, function(answer) {
       if(answer.id !== null){
-          alert("Comentario registrado com sucesso");
+        Materialize.toast('Comentario registrado com sucesso', 3000, 'rounded'); //popup avisando que o comentario foi registrado
           $location.path('/');
       }
     });
