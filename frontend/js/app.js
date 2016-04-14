@@ -14,6 +14,13 @@ $routeProvider.when('/',
         controllerAs: "videosCtrl"
       }
     )
+    .when ('/c:cursoId',
+      {
+        templateUrl: 'templates/curso.html',
+        controller: "VideosController",
+        controllerAs: "videosCtrl"
+      }
+    )
     .when('/novoVideo',
       {
         templateUrl: 'templates/newVideo.html',
@@ -101,10 +108,21 @@ app.factory('Service', function($http) {
  * @param $scope escopo do controller
  * @param $sce serviço para anexar url do vídeo
  */
-app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', function($sce, $scope, $location, service) {
+app.controller('VideosController', ['$sce', '$scope','$routeParams', '$location', 'Service', function($sce, $scope,$routeParams, $location, service) {
   var self = this;
   self.videos = [];
   self.cursos = [];
+  self.checkbox = [];
+  self.selectedCourse;
+
+
+  /**
+   * Função para selecionar um curso pra exibição prioritária
+   *
+   */
+  function selectCurso(){
+    self.selectedCourse =   self.cursos[$routeParams.cursoId - 1];
+  }
 
   // recupera os vídeos
   service.get(hostAddress + 'videos', function(answer) {
@@ -117,7 +135,6 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
   service.get(hostAddress + 'cursos', function(answer) {
     self.cursos = answer;
   });
-
 
   /**
    * método para atualizar url do vídeo da aula
@@ -137,13 +154,11 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
   {
     var format_url;
 
-    if (url.search("youtu.be/") !== -1){
-        format_url = url.replace("youtu.be/","youtube.com/embed/");
-        alert("short");
-    } else {
-        format_url = url.replace("watch?v=","embed/");
-        alert("NORMAL");
-    }
+
+     if (url.search("youtu.be/") !== -1)
+      format_url = url.replace("youtu.be/","youtube.com/embed/");
+     else
+      format_url = url.replace("watch?v=","embed/");
 
     return format_url;
   }
@@ -164,16 +179,17 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
       }
     });
   }
-
   /**
    * Função para recuperação dos dados do curso do vídeo
    *
    * @param index indice do video que será atualizado
    */
   function updateVideoCourse(index) {
+    selectCurso();
     if (index < self.videos.length) {
       service.get(self.videos[index].curso, function(answer) {
         self.videos[index].curso = answer;
+        self.checkbox[self.videos[index].curso.id] = 1;//CHECA QUAIS CURSOS POSSUEM VIDEOS A MOSTRAR
         updateVideoComments(index, 0);
         updateVideoCourse(index + 1);
       });

@@ -2,7 +2,7 @@
 <div class="parallax-container">
   <div class="section" id="index-banner">
     <div class="container">
-      <h1 class="header center white-text">Portal COLTECADEMY</h1>
+      <h1 class="header center white-text">Portal {{ videosCtrl.selectedCourse.nome}}</h1>
       <div class="row center">
         <h5 class="header col s12 light">O portal educativo do COLTEC!!</h5>
       </div>
@@ -10,49 +10,13 @@
         <a href="#/novoVideo" class="btn-large waves-effect waves-light indigo darken-3">Novo Vídeo</a>
       </div>
     </div>
-    <div class="parallax"><img src="public/images/coltec.jpg" alt="Unsplashed background img 1"></div>
+    <div class="parallax"><img src="public/images/{{videosCtrl.selectedCourse.nome}}.jpg" alt="Unsplashed background img 1"></div>
   </div>
 </div>
 <!-- Fim Banner principal -->
 
 
-<!-- Seção step-to-step -->
-<div class="container">
-  <div class="section">
-    <div class="row center light">
-      <div class="col m4 s12">
-        <div class="icon-block">
-          <h2 class="center indigo-text"><i class="material-icons medium">video_label</i></h2>
-          <h5>Assista</h5>
-          <p class="light">
-            Aprenda quando e onde quiser assistindo um dos {{videosCtrl.videos.length}} vídeos disponibilizados no portal!!
-          </p>
-        </div>
-      </div>
-      <div class="col m4 s12">
-        <div class="icon-block">
-          <h2 class="center indigo-text"><i class="material-icons medium">star</i></h2>
-          <h5>Avalie e Compartilhe</h5>
-          <p class="light">
-            Gostou do vídeo? Avalie e compartilhe com seus amigos!!
-          </p>
-        </div>
-      </div>
-      <div class="col m4 s12">
-        <div class="icon-block">
-          <h2 class="center indigo-text"><i class="material-icons medium">add_to_queue</i></h2>
-          <h5>Adicione novos vídeos</h5>
-          <p class="light">
-            Deseja adicionar um novo vídeo que viu na web? Deseja disponibilizar um vídeo seu? Basta cadastrá-lo no portal!!
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Fim da seção step-to-step -->
-
-<!-- Lista dos vídeos -->
+<!-- Header Lista dos vídeos -->
 <div class="indigo darken-3">
   <div class="container">
     <div class="section">
@@ -64,15 +28,14 @@
     </div>
   </div>
 </div>
+<!-- Fim Header Lista dos vídeos -->
+
+<!-- Lista dos vídeos -->
 <div class="row"></div>
-<div ng-repeat="curso in videosCtrl.cursos" ng-if="videosCtrl.checkbox[curso.id] == 1">
   <div class="container">
     <div class="row ">
       <div class="col s12">
-        <h5 style="display:inline"> {{curso.nome}} </h5>
-        <a href="#/c{{curso.id}}" class="btn-floating btn-sml waves-effect waves-light indigo darken-3">
-          <i class="material-icons">explore</i>
-        </a>
+        <h5 class="center" style="display:inline"> {{ videosCtrl.selectedCourse.nome}} </h5>
       </div>
     </div>
   </div>
@@ -80,7 +43,7 @@
     <div class="container">
       <div class="section">
         <div class="row no-pad-bot">
-          <div class="col l4 m6 s12" ng-repeat="video in videosCtrl.videos" ng-if="curso.id == video.curso.id">
+          <div class="col l4 m6 s12" ng-repeat="video in videosCtrl.videos" ng-if="videosCtrl.selectedCourse.id == video.curso.id">
             <div class="card hoverable medium">
               <div class="card-image waves-effect waves-block waves-light">
                 <img class="activator" ng-src="{{video.urlImagem}}">
@@ -104,6 +67,8 @@
     </div>
   </div>
 </div>
+<!-- Fim Lista dos vídeos -->
+
 
 
   <!-- Modais para exibição dos vídeos e comentários -->
