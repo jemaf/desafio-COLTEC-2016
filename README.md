@@ -1,4 +1,4 @@
-> Aviso aos potenciais kibadores (que também estejam concorrendo pela vaga): **NEM VEM SEUS \#\#\#\#\#, VOU DESTRUIR SEU %%%%% SE ALGUÉM PEGAR 'INSPIRAÇÃO' DE MIM SEM PEDIR**
+> Não kibem pls
 
 ## O Portal eduCOLTEC
 
