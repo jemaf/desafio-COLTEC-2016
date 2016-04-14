@@ -69,7 +69,8 @@
     <div class="section">
       <div class="row no-pad-bot">
 
-        <div class="col l4 m6 s12" ng-repeat="video in videosCtrl.videos">
+<!-- Parte comentada para a produção de listas separadas -->
+<!--        <div class="col l4 m6 s12" ng-repeat="video in videosCtrl.videos">
           <div class="card hoverable medium">
             <div class="card-image waves-effect waves-block waves-light">
               <img class="activator" ng-src="{{video.urlImagem}}">
@@ -89,6 +90,136 @@
             </div>
           </div>
         </div>
+-->
+
+        <div class="col l12 m12 s12">
+          <ul class="collapsible popout collapsible-accordion" data-collapsible="accordion">
+            <li>
+              <div class="collapsible-header"><i class="fa fa-code" aria-hidden="true"></i>Informática</div>
+              <div class="collapsible-body">
+                <div class="col l4 m4 s11" ng-repeat="video in videosCtrl.videos" ng-if="video.curso.nome == 'Informática'">
+                  <div class="card hoverable medium">
+                    <div class="card-image waves-effect waves-block waves-light">
+                      <img class="activator" ng-src="{{video.urlImagem}}">
+                    </div>
+                    <div class="card-content">
+                      <span class="card-title activator grey-text text-darken-4">{{video.curso.nome}}<i class="material-icons right">more_vert</i></span><br>
+                      <b>{{video.disciplina}}</b><br>
+                      <span>{{video.titulo}}</span>
+                    </div>
+                    <div class="card-reveal">
+                      <span class="card-title grey-text text-darken-4">Resumo<i class="material-icons right">close</i></span>
+                      <p>{{video.resumo}}</p>
+                    </div>
+                    <div class="card-action indigo lighten-5">
+                      <a href="#video-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Vídeo</a>
+                      <a href="#comment-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Comentários</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header"><i class="fa fa-bolt" aria-hidden="true"></i>Eletrônica</div>
+              <div class="collapsible-body" style="">
+                <div class="col l4 m4 s11" ng-repeat="video in videosCtrl.videos" ng-if="video.curso.nome == 'Eletrônica'">
+                  <div class="card hoverable medium">
+                    <div class="card-image waves-effect waves-block waves-light">
+                      <img class="activator" ng-src="{{video.urlImagem}}">
+                    </div>
+                    <div class="card-content">
+                      <span class="card-title activator grey-text text-darken-4">{{video.curso.nome}}<i class="material-icons right">more_vert</i></span><br>
+                      <b>{{video.disciplina}}</b><br>
+                      <span>{{video.titulo}}</span>
+                    </div>
+                    <div class="card-reveal">
+                      <span class="card-title grey-text text-darken-4">Resumo<i class="material-icons right">close</i></span>
+                      <p>{{video.resumo}}</p>
+                    </div>
+                    <div class="card-action indigo lighten-5">
+                      <a href="#video-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Vídeo</a>
+                      <a href="#comment-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Comentários</a>
+                    </div>
+                  </div>
+                </div>
+            </li>
+            <li>
+              <div class="collapsible-header"><i class="fa fa-cogs" aria-hidden="true"></i>Automação industrial</div>
+              <div class="collapsible-body" style="">
+                <div class="col l4 m4 s11" ng-repeat="video in videosCtrl.videos" ng-if="video.curso.nome == 'Eletrônica'">
+                  <div class="card hoverable medium">
+                    <div class="card-image waves-effect waves-block waves-light">
+                      <img class="activator" ng-src="{{video.urlImagem}}">
+                    </div>
+                    <div class="card-content">
+                      <span class="card-title activator grey-text text-darken-4">{{video.curso.nome}}<i class="material-icons right">more_vert</i></span><br>
+                      <b>{{video.disciplina}}</b><br>
+                      <span>{{video.titulo}}</span>
+                    </div>
+                    <div class="card-reveal">
+                      <span class="card-title grey-text text-darken-4">Resumo<i class="material-icons right">close</i></span>
+                      <p>{{video.resumo}}</p>
+                    </div>
+                    <div class="card-action indigo lighten-5">
+                      <a href="#video-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Vídeo</a>
+                      <a href="#comment-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Comentários</a>
+                    </div>
+                  </div>
+                </div>
+            </li>
+            <li>
+              <div class="collapsible-header"><i class="fa fa-flask" aria-hidden="true"></i>Química</div>
+              <div class="collapsible-body" style="">
+                <div class="col l4 m4 s11" ng-repeat="video in videosCtrl.videos" ng-if="video.curso.nome == 'Química'">
+                  <div class="card hoverable medium">
+                    <div class="card-image waves-effect waves-block waves-light">
+                      <img class="activator" ng-src="{{video.urlImagem}}">
+                    </div>
+                    <div class="card-content">
+                      <span class="card-title activator grey-text text-darken-4">{{video.curso.nome}}<i class="material-icons right">more_vert</i></span><br>
+                      <b>{{video.disciplina}}</b><br>
+                      <span>{{video.titulo}}</span>
+                    </div>
+                    <div class="card-reveal">
+                      <span class="card-title grey-text text-darken-4">Resumo<i class="material-icons right">close</i></span>
+                      <p>{{video.resumo}}</p>
+                    </div>
+                    <div class="card-action indigo lighten-5">
+                      <a href="#video-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Vídeo</a>
+                      <a href="#comment-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Comentários</a>
+                    </div>
+                  </div>
+                </div>
+            </li>
+            <li>
+              <div class="collapsible-header"><i class="fa fa-heartbeat" aria-hidden="true"></i>Análises Clínicas</div>
+              <div class="collapsible-body" style="">
+                <div class="col l4 m4 s11" ng-repeat="video in videosCtrl.videos" ng-if="video.curso.nome == 'Análises Clínicas'">
+                  <div class="card hoverable medium">
+                    <div class="card-image waves-effect waves-block waves-light">
+                      <img class="activator" ng-src="{{video.urlImagem}}">
+                    </div>
+                    <div class="card-content">
+                      <span class="card-title activator grey-text text-darken-4">{{video.curso.nome}}<i class="material-icons right">more_vert</i></span><br>
+                      <b>{{video.disciplina}}</b><br>
+                      <span>{{video.titulo}}</span>
+                    </div>
+                    <div class="card-reveal">
+                      <span class="card-title grey-text text-darken-4">Resumo<i class="material-icons right">close</i></span>
+                      <p>{{video.resumo}}</p>
+                    </div>
+                    <div class="card-action indigo lighten-5">
+                      <a href="#video-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Vídeo</a>
+                      <a href="#comment-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Comentários</a>
+                    </div>
+                  </div>
+                </div>
+            </li>
+          </ul>
+        </div>
+
+
+
 
       </div>
     </div>
@@ -131,6 +262,12 @@
 </div>
 <!-- Fim da lista dos Vídeos -->
 
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.collapsible').collapsible({
+  });
+});
+</script>
 
 <script type="text/javascript">
 (function($){
