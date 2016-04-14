@@ -1,13 +1,3 @@
-<!-- Facebook SDK javascript para os botões de share -->
-<script>
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-</script>
 
 <!-- Banner principal -->
 <div class="parallax-container">
@@ -127,6 +117,7 @@
             <div class="card-action indigo lighten-5">
               <a href="#video-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Vídeo</a>
               <a href="#comment-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Comentários</a>
+              <a ng-click="share(video)" ><img src="http://i.stack.imgur.com/br4Br.png" height="21" width="58"/></a>
             </div>
           </div>
         </div>
@@ -145,21 +136,10 @@
         </div>
       </div>
       <div class="modal-footer">
-        <span class="fb-share-button" data-href="{{video.urlVideo}}" data-layout="button" data-mobile-iframe="true"></span> <!--Botão de share-->
         <a class=" modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
         <a href="#comment-{{video.id}}" class="modal-action modal-close waves-effect waves-green btn-flat" materialmodal>Comentários</a>
       </div>
     </div>
-
-    <!-- <div id="newcommnet-{{video.id}}" class="modal">
-      <div class="modal-content" style="padding:0;">
-          <iframe width="800" height="500" src="{{getVideoUrl(video)}}" frameborder="0"></iframe>
-      </div>
-      <div class="modal-footer">
-        <a class=" modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
-        <a href="#comment-{{video.id}}" class="modal-action modal-close waves-effect waves-green btn-flat" materialmodal>Comentários</a>
-      </div>
-    </div> -->
 
     <div id="comment-{{video.id}}" class="modal modal-fixed-footer">
       <div class="modal-content">
@@ -180,12 +160,15 @@
         <a class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
         <a href="#video-{{video.id}}" class="modal-action modal-close waves-effect waves-green btn-flat" materialmodal>Vídeo</a>
         <a href="#/novoComentario/{{video.id}}" class="modal-action modal-close waves-effect waves-green btn-flat">Novo</a>
-        <!-- <a href="#video-{{video.id}}" class="modal-action modal-close waves-effect waves-green btn-flat" materialmodal>Novo</a> -->
       </div>
+
     </div>
 
   </div>
   <!-- Fim das modais de vídeo e comentários -->
+
+
+
 
 </div>
 <!-- Fim da lista dos Vídeos -->

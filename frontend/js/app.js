@@ -123,8 +123,9 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
     Materialize.toast('Preencha todos os campos!', 3000, 'rounded');
   };
 
-  $scope.getCommentUrl = function(video){
-    return '#/novoComentario/' + video.id;
+  // Função para compartilhar
+  $scope.share = function(video){
+     window.open('https://www.facebook.com/sharer/sharer.php?u=' + video.urlVideo, "_blank", "resizable=yes,top=500,left=500,width=600,height=400");
   };
 
   /**
