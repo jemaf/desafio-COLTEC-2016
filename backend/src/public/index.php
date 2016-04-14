@@ -19,8 +19,8 @@ header("Pragma: no-cache");
 
 //Aqui nós temos duas funções que são usadas para sempre limpar o cache e retirar os comentários e os vídeos
 //para testes está comentado, já que não foi implementado ainda um método de guarda informações tipo MySQL. :* beijo profs
-session_start();
-session_regenerate_id(true);
+//session_start();
+//session_regenerate_id(true);
 
 
 /**
