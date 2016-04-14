@@ -178,7 +178,6 @@ app.controller('VideosController', ['$sce', '$scope','$routeParams', '$location'
       }
     });
   }
-
   /**
    * Função para recuperação dos dados do curso do vídeo
    *
