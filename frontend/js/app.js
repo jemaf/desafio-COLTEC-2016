@@ -1,5 +1,5 @@
 
-var app = angular.module('eduCOLTEC', ['ngRoute']);
+var app = angular.module('COLTECADEMY', ['ngRoute']);
 
 var hostAddress = '/backend/src/public/';
 
@@ -10,6 +10,13 @@ app.config(['$routeProvider', function($routeProvider) {
 $routeProvider.when('/',
       {
         templateUrl: 'templates/main.html',
+        controller: "VideosController",
+        controllerAs: "videosCtrl"
+      }
+    )
+    .when ('/c:cursoId',
+      {
+        templateUrl: 'templates/curso.html',
         controller: "VideosController",
         controllerAs: "videosCtrl"
       }
@@ -101,10 +108,21 @@ app.factory('Service', function($http) {
  * @param $scope escopo do controller
  * @param $sce serviço para anexar url do vídeo
  */
-app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', function($sce, $scope, $location, service) {
+app.controller('VideosController', ['$sce', '$scope','$routeParams', '$location', 'Service', function($sce, $scope,$routeParams, $location, service) {
   var self = this;
   self.videos = [];
   self.cursos = [];
+  self.checkbox = [];
+  self.selectedCourse;
+
+
+  /**
+   * Função para selecionar um curso pra exibição prioritária
+   *
+   */
+  function selectCurso(){
+    self.selectedCourse =   self.cursos[$routeParams.cursoId - 1];
+  }
 
   // recupera os vídeos
   service.get(hostAddress + 'videos', function(answer) {
@@ -118,7 +136,6 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
     self.cursos = answer;
   });
 
-
   /**
    * método para atualizar url do vídeo da aula
    *
@@ -127,23 +144,6 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
   $scope.getVideoUrl = function (video) {
     return $sce.trustAsResourceUrl(video.urlVideo);
   };
-
-
-  /**
-   *  Função para cadastro de novo vídeo
-   *
-   *  @param video novo video a ser cadastrado
-   */
-  $scope.newVideo = function(video) {
-    video.urlVideo = formatVideoUrl(video.urlVideo_un)
-    video.cursoId = video.curso.id;
-    service.post(hostAddress + 'videos', video, function(answer) {
-      if (answer.id !== null) {
-        alert("Cadastrado com sucesso");
-        $location.path('/');
-      }
-    });
-  }
 
   /**
    * Função para formatar links de videos para exibição
@@ -154,16 +154,29 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
   {
     var format_url;
 
-    if (url.search("watch?v=") !== -1){
-      format_url = url.replace("watch?v=","embed/");
-    } else if (url.search("youtu.be/") !== -1){
+     if (url.search("youtu.be/") !== -1)
       format_url = url.replace("youtu.be/","youtube.com/embed/");
-    } else if (url.search("youtube.com/embed") !== -1){
-      null;
-    } 
-
+     else
+      format_url = url.replace("watch?v=","embed/");
 
     return format_url;
+  }
+
+  /**
+   *  Função para cadastro de novo vídeo
+   *
+   *  @param video novo video a ser cadastrado
+   */
+  $scope.newVideo = function(video) {
+
+    video.urlVideo = formatVideoUrl(video.urlVideo_un);
+    video.cursoId = video.curso.id;
+    service.post(hostAddress + 'videos', video, function(answer) {
+      if (answer.id !== null) {
+        alert("Cadastrado com sucesso");
+        $location.path('/');
+      }
+    });
   }
 
   /**
@@ -172,9 +185,11 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
    * @param index indice do video que será atualizado
    */
   function updateVideoCourse(index) {
+    selectCurso();
     if (index < self.videos.length) {
       service.get(self.videos[index].curso, function(answer) {
         self.videos[index].curso = answer;
+        self.checkbox[self.videos[index].curso.id] = 1;//CHECA QUAIS CURSOS POSSUEM VIDEOS A MOSTRAR
         updateVideoComments(index, 0);
         updateVideoCourse(index + 1);
       });
@@ -215,8 +230,8 @@ app.controller('ComentariosController', ['$scope', 'Service', '$routeParams', '$
      *
      *  @param comment comentário a ser cadastrado
      */
-    $scope.newComment = function(comentario,id) {
-      comentario.videoId = id;
+    $scope.newComment = function(comentario) {
+      comentario.videoId = $routeParams.videoId;
 
       service.post(hostAddress + 'comentarios',comentario, function(answer) {
         if (answer.id !== null) {
