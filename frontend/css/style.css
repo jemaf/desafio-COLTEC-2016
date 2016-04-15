@@ -8,6 +8,15 @@ footer.page-footer {
   height: auto;
   color: rgba(255,255,255,.9);
 }
+.dropleft-main {
+  top:15px;
+  position:relative;
+  display: inline;
+}
+
+.dropleft-links {
+  top:-20px;
+}
 
 .parallax-container .section {
   width: 100%;

@@ -12,7 +12,6 @@ class Video
   public $urlVideo;
   public $urlImagem;
   public $resumo;
-
   /**
    * Recebe um vetor com os parâmetros e cria o objeto
    *

@@ -32,6 +32,31 @@
 
 <!-- Lista dos vídeos -->
 <div class="blue-grey lighten-5">
+  <!-- Ordenador -->
+    <div class="row ">
+      <div class="col m2 s1 offset-s10 offset-m11">
+        <div class="fixed-action-btn horizontal dropleft-main">
+          <a class="btn-floating btn-large indigo darken-3">
+            <i class="large mdi-navigation-menu"></i>
+          </a>
+          <ul>
+            <li><button ng-click = "ordena_videos('rating')" class="btn-floating indigo darken-3 dropleft-links">
+              <i class="material-icons">trending_up</i></a></li>
+            <li><button ng-click = "ordena_videos('reverse_rating')" class="btn-floating indigo darken-3 dropleft-links" >
+              <i class="material-icons">trending_down</i></a></li>
+
+            <li><button ng-click = "ordena_videos('id')" class="btn-floating indigo darken-3 dropleft-links">
+              <i class="fa fa-calendar-plus-o fa-fw" aria-hidden="true"></i></a></li>
+            <li><button ng-click = "ordena_videos('reverse_id')" class="btn-floating indigo darken-3 dropleft-links">
+              <i class="fa fa-calendar-minus-o fa-fw" aria-hidden="true"></i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <!-- Fim Ordenador -->
+
+  <!-- Lista dos vídeos -->
+
   <div class="row"></div>
     <div class="container">
       <div class="section">

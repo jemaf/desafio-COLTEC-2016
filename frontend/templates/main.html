@@ -66,14 +66,37 @@
 </div>
 <!-- Fim Header Lista dos vídeos -->
 
-<!-- Lista dos vídeos -->
+
 <div class="blue-grey lighten-5">
-  <div class="row "></div>
+<!-- Ordenador -->
+  <div class="row ">
+    <div class="col m2 s1 offset-s10 offset-m11">
+      <div class="fixed-action-btn horizontal click-to-toggle dropleft-main">
+        <a class="btn-floating btn-large indigo darken-3">
+          <i class="large mdi-navigation-menu"></i>
+        </a>
+        <ul>
+          <li><button ng-click = "ordena_videos('rating')" class="btn-floating indigo darken-3 dropleft-links">
+            <i class="material-icons">trending_up</i></a></li>
+          <li><button ng-click = "ordena_videos('reverse_rating')" class="btn-floating indigo darken-3 dropleft-links" >
+            <i class="material-icons">trending_down</i></a></li>
+
+          <li><button ng-click = "ordena_videos('id')" class="btn-floating indigo darken-3 dropleft-links">
+            <i class="fa fa-calendar-plus-o fa-fw" aria-hidden="true"></i></a></li>
+          <li><button ng-click = "ordena_videos('reverse_id')" class="btn-floating indigo darken-3 dropleft-links">
+            <i class="fa fa-calendar-minus-o fa-fw" aria-hidden="true"></i></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+<!-- Fim Ordenador -->
+
+<!-- Lista dos vídeos -->
   <div  ng-repeat="curso in videosCtrl.cursos" ng-if="videosCtrl.checkbox[curso.id] == 1">
     <div class="container ">
       <div class="row ">
         <div class="col s12">
-          <h5 style="display:inline"> {{curso.nome}} </h5>
+          <h4 style="display:inline"> {{curso.nome}} </h4>
           <a href="#/c{{curso.id}}" class="btn-floating btn-sml waves-effect waves-light indigo darken-3">
             <i class="material-icons">explore</i>
           </a>
@@ -83,23 +106,25 @@
     <div class="container">
       <div class="section">
         <div class="row no-pad-bot">
-          <div class="col l4 m6 s12" ng-repeat="video in videosCtrl.videos" ng-if="curso.id == video.curso.id">
-            <div class="card hoverable medium">
-              <div class="card-image waves-effect waves-block waves-light">
-                <img class="activator" ng-src="{{video.urlImagem}}">
-              </div>
-              <div class="card-content">
-                <span class="card-title activator grey-text text-darken-4">{{video.disciplina}}<i class="material-icons right">more_vert</i></span><br>
-                <span>{{video.titulo}}</span>
-              </div>
-              <div class="card-reveal">
-                <span class="card-title grey-text text-darken-4">Resumo<i class="material-icons right">close</i></span>
-                <p>{{video.resumo}}</p>
-              </div>
-              <div class="card-action indigo lighten-5">
-                <a href="#video-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Vídeo</a>
-                <a href="#comment-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Comentários</a>
-                <a class="indigo-text"ng-if="video.rate > 0">Nota: {{video.rate}}</a>
+          <div class="col l4 m6 s12" ng-repeat="video in videosCtrl.sortedVideos" ng-if="curso.id == video.curso.id">
+            <div ng-if = "video.exibir == 1">
+              <div class="card hoverable medium">
+                <div class="card-image waves-effect waves-block waves-light">
+                  <img class="activator" ng-src="{{video.urlImagem}}">
+                </div>
+                <div class="card-content">
+                  <span class="card-title activator grey-text text-darken-4">{{video.disciplina}}<i class="material-icons right">more_vert</i></span><br>
+                  <span>{{video.titulo}}</span>
+                </div>
+                <div class="card-reveal">
+                  <span class="card-title grey-text text-darken-4">Resumo<i class="material-icons right">close</i></span>
+                  <p>{{video.resumo}}</p>
+                </div>
+                <div class="card-action indigo lighten-5">
+                  <a href="#video-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Vídeo</a>
+                  <a href="#comment-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Comentários</a>
+                  <a class="indigo-text"ng-if="video.rate > 0">Media: {{video.rate}}</a>
+                </div>
               </div>
             </div>
           </div>
@@ -153,6 +178,7 @@
 (function($){
   $(function(){
     $('.parallax').parallax();
+    $(".button-collapse").sideNav();
     $('.modal-trigger').leanModal();
   }); // end of document ready
 })(jQuery); // end of jQuery name space

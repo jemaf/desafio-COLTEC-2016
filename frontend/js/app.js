@@ -21,6 +21,13 @@ $routeProvider.when('/',
         controllerAs: "videosCtrl"
       }
     )
+    .when ('/search?:term',
+      {
+        templateUrl: 'templates/main.html',
+        controller: "VideosController",
+        controllerAs: "videosCtrl"
+      }
+    )
     .when('/novoVideo',
       {
         templateUrl: 'templates/newVideo.html',
@@ -67,6 +74,20 @@ app.filter('range', function() {
 
     return input;
   };
+});
+app.filter('myFormat', function() {
+    return function(x) {
+        var i, c, txt = "";
+        x = x.split("")
+        for (i = 0; i < x.length; i++) {
+            c = x[i];
+            if (i % 2 == 0) {
+                c = c.toUpperCase();
+            }
+            txt += c;
+        }
+        return txt;
+    };
 });
 
 
@@ -117,71 +138,13 @@ app.controller('VideosController', ['$sce', '$scope','$routeParams', '$location'
   self.sortedVideos = [];
   self.selectedCourse;
 
-  /**
-   * Função para formatar links de videos para exibição
-   *
-   * @param url URL dos videos a serem formatados
-   */
-  function formatVideoUrl(url)
-  {
-    var format_url;
 
-     if (url.search("youtu.be/") !== -1)
-      format_url = url.replace("youtu.be/","youtube.com/embed/");
-     else
-      format_url = url.replace("watch?v=","embed/");
-
-    return format_url;
-  }
-
-  //Função para selecionar um curso pra exibição prioritária
-  function selectCurso(){
-    self.selectedCourse = self.cursos[$routeParams.cursoId - 1];
-  }
-   // Função para fazer uma media dos valores das avaliações
-   function rate_video (video){
-      return (Math.round((video.total/video.comentarios.length) * 10)) / 10;
-   }
-  /**
-   * Função para ordenar os videos para exibição
-   *
-   */
-   function ordena_videos (mode){
-    self.sortedVideos = self.videos;
-   switch (mode) {
-     //ordena por avaliações do video
-     case 'rating':
-       self.sortedVideos.sort(function(a,b){
-         return a.rate-b.rate;
-       });
-    break;
-    //ordena pelo inverso das avaliações do video
-    case 'reverse_rating':
-       self.sortedVideos.sort(function(a,b){
-         return b.rate-a.rate;
-         });
-   break;
-   //ordena pelo id do video id(data)
-    case 'id':
-      self.sortedVideos.sort(function(a,b){
-        return a.id-b.id;
-        });
-   break;
-   //ordena pelo inverso do id(data)
-   case 'reverse_id':
-      self.sortedVideos.sort(function(a,b){
-        return b.id-a.id;
-      });
-  }
-  console.log("VIDEOS",self.videos);
-  console.log("sortedVideos",self.sortedVideos);
-}
 //----------------------------------------------------------------------------//
   // recupera os vídeos
   service.get(hostAddress + 'videos', function(answer) {
     self.videos = answer;
     updateVideoCourse(0);
-    ordena_videos('rating');
+    $scope.ordena_videos('rating');
   });
 
   // recupera os cursos
@@ -189,6 +152,8 @@ app.controller('VideosController', ['$sce', '$scope','$routeParams', '$location'
     self.cursos = answer;
     selectCurso();
   });
+
+
 
   /**
    * método para atualizar url do vídeo da aula
@@ -227,12 +192,12 @@ app.controller('VideosController', ['$sce', '$scope','$routeParams', '$location'
         self.checkbox[self.videos[index].curso.id] = 1;//CHECA QUAIS CURSOS POSSUEM VIDEOS A MOSTRAR
         self.videos[index].total = 0;
         self.videos[index].rate = 0;
+        self.videos[index].exibir = 1;
         updateVideoComments(index, 0);
         updateVideoCourse(index + 1);
       });
     }
   }
-
 
   /**
    * Função para recuperação dos comentários da função do curso
@@ -249,6 +214,75 @@ app.controller('VideosController', ['$sce', '$scope','$routeParams', '$location'
       });
     }
   }
+
+  /**
+   * Função para formatar links de videos para exibição
+   *
+   * @param url URL dos videos a serem formatados
+   */
+  function formatVideoUrl(url)
+  {
+    var format_url;
+
+     if (url.search("youtu.be/") !== -1)
+      format_url = url.replace("youtu.be/","youtube.com/embed/");
+     else
+      format_url = url.replace("watch?v=","embed/");
+
+    return format_url;
+  }
+
+  /**
+   * Função para selecionar um curso pra exibição prioritária
+   *
+   */
+  function selectCurso(){
+    self.selectedCourse = self.cursos[$routeParams.cursoId - 1];
+  }
+
+  /**
+   * Função para fazer uma media dos valores das avaliações
+   *
+   */
+  function rate_video (video){
+      return (Math.round((video.total/video.comentarios.length) * 10)) / 10;
+   }
+
+  /**
+   * Função para ordenar os videos para exibição
+   *
+   */
+  $scope.ordena_videos = function  (mode){
+    self.sortedVideos = self.videos;
+   switch (mode) {
+     //ordena por avaliações do video
+     case 'rating':
+       self.sortedVideos.sort(function(a,b){
+         return b.rate-a.rate;
+       });
+    break;
+    //ordena pelo inverso das avaliações do video
+    case 'reverse_rating':
+       self.sortedVideos.sort(function(a,b){
+         return a.rate-b.rate;
+         });
+   break;
+   //ordena pelo id do video id(data)
+    case 'id':
+      self.sortedVideos.sort(function(a,b){
+        return b.id-a.id;
+        });
+   break;
+   //ordena pelo inverso do id(data)
+   case 'reverse_id':
+      self.sortedVideos.sort(function(a,b){
+        return a.id-b.id;
+      });
+   break;
+  }
+  console.log("VIDEOS",self.videos);
+  console.log("sortedVideos",self.sortedVideos);
+}
 }]);
 
 //---------------------------------------------------------------------------------------------------------------------//
