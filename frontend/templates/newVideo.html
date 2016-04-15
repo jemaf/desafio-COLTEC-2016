@@ -20,7 +20,7 @@
           </div>
           <div class="row">
             <div class="input-field col s6">
-              <select class="browser-default" ng-model="video.curso" ng-options="c.nome for c in videosCtrl.cursos track by c.id">
+              <select class="browser-default" ng-model="video.curso" ng-options="c.nome for c in videosCtrl.cursos track by c.nome">
                 <option value="" disabled selected>Escolha um Curso</option>
               </select>
             </div>

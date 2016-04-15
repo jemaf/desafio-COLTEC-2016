@@ -1,7 +1,8 @@
 <?php
-class VideoDAO implements DefaultDAO
+class VideoDAO 
 {
 
+  const URL = 'https://educoltec.firebaseio.com';
   const PATH = '/videos';
   private $firebase;
 
@@ -44,7 +45,7 @@ class VideoDAO implements DefaultDAO
   public function update($object, $id) {
     $video = json_decode($this->firebase->get(self::PATH . "/" . $id));
     if ($video) {
-      $video->cursoId = $object['cursoId'] ? $object['cursoId'] : $video->cursoId;
+      $video->curso = $object['curso'] ? $object['curso'] : $video->curso;
       $video->titulo = $object['titulo'] ? $object['titulo'] : $video->titulo;
       $video->urlVideo = $object['urlVideo'] ? $object['urlVideo'] : $video->urlVideo;
       $video->urlImagem = $object['urlImagem'] ? $object['urlImagem'] : $video->urlImagem;
@@ -59,7 +60,7 @@ class VideoDAO implements DefaultDAO
 
 
   public function getById($id) {
-    return $this->firebase->get(self::PATH . "/" . $id);
+    return json_decode($this->firebase->get(self::PATH . "/" . $id));
   }
 
 
@@ -67,7 +68,7 @@ class VideoDAO implements DefaultDAO
     $allVideos = json_decode($this->firebase->get(self::PATH));
     return array_filter($allVideos, function($var) {
       return ($var->getId() == $data['id'] || $data['id'] === NULL) &&
-              ($var->getCursoId() == $data['cursoId'] || $data['cursoId'] === NULL) &&
+              ($var->getCurso() == $data['curso'] || $data['curso'] === NULL) &&
               ($var->getTitulo() == $data['titulo'] || $data['titulo'] === NULL) &&
               ($var->getUrlVide() == $data['urlVideo'] || $data['urlVideo'] === NULL) &&
               ($var->getUrlImagem() == $data['urlImagem'] || $data['urlImagem'] === NULL) &&

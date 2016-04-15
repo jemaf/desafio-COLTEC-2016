@@ -6,7 +6,7 @@
 class Video
 {
   public $id;
-  public $cursoId;
+  public $curso;
   public $disciplina;
   public $titulo;
   public $urlVideo;
@@ -23,7 +23,7 @@ class Video
     if(isset($data['id'])) {
        $this->id = $data['id'];
     }
-    $this->cursoId = $data['cursoId'];
+    $this->curso = $data['curso'];
     $this->titulo = $data['titulo'];
     $this->urlVideo = $data['urlVideo'];
     $this->urlImagem = $data['urlImagem'];
@@ -43,13 +43,13 @@ class Video
   }
 
   /**
-   * Get the value of cursoId
+   * Get the value of curso
    *
    * @return mixed
    */
-  public function getCursoId()
+  public function getCurso()
   {
-      return $this->cursoId;
+      return $this->curso;
   }
 
   /**

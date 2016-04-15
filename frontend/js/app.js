@@ -145,22 +145,6 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
 
 
   /**
-   * Função para recuperação dos dados do curso do vídeo
-   *
-   * @param index indice do video que será atualizado
-   */
-  function updateVideoCourse(index) {
-    if (index < self.videos.length) {
-      service.get(self.videos[index].curso, function(answer) {
-        self.videos[index].curso = answer;
-        updateVideoComments(index, 0);
-        updateVideoCourse(index + 1);
-      });
-    }
-  }
-
-
-  /**
    * Função para recuperação dos comentários da função do curso
    *
    * @param index indice do video que será atualizado
@@ -201,7 +185,7 @@ app.controller('ComentariosController', ['$scope', 'Service', '$routeParams', '$
     comentario.videoId = $routeParams.videoId;
     service.post(hostAddress + 'comentarios/' + comentario.videoId, comentario, function(answer) {
       if (answer.id !== null) {
-        alert("Cadastrado com sucesso: " + self.video.curso);
+        alert("Cadastrado com sucesso");
         $location.path('/');
       }
     });
