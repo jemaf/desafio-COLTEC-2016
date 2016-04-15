@@ -62,6 +62,30 @@ $app->get('/cursos/{id}', function (Request $request, Response $response, $args)
 $app->post('/videos', function (Request $request, Response $response) {
   $data = $request->getParsedBody();
 
+  /**
+  *  Checa se a URL do vídeo é do Youtube e tenta extrair o ID dele.
+  *
+  */
+  $pattern = '#^(?:https?://)?';    # Optional URL scheme. Either http or https.
+  $pattern .= '(?:www\.)?';         #  Optional www subdomain.
+  $pattern .= '(?:';                #  Group host alternatives:
+  $pattern .=   'youtu\.be/';       #    Either youtu.be,
+  $pattern .=   '|youtube\.com';    #    or youtube.com
+  $pattern .=   '(?:';              #    Group path alternatives:
+  $pattern .=     '/embed/';        #      Either /embed/,
+  $pattern .=     '|/v/';           #      or /v/,
+  $pattern .=     '|/watch\?v=';    #      or /watch?v=,
+  $pattern .=     '|/watch\?.+&v='; #      or /watch?other_param&v=
+  $pattern .=   ')';                #    End path alternatives.
+  $pattern .= ')';                  #  End host alternatives.
+  $pattern .= '([\w-]{11})';        # 11 characters (Length of Youtube video ids).
+  $pattern .= '(?:.+)?$#x';         # Optional other ending URL parameters.
+  preg_match($pattern, $data['urlVideo'], $matches);
+  $parsedVid = isset($matches[1]) ? $matches[1] : FALSE;
+  if($parsedVid===FALSE)
+    return $response->withJson(array("message" => "Erro: vídeo inválido!"));
+  else $data['urlVideo'] = $parsedVid;
+
   $videoDAO = VideoDAO::getInstance();
   $result = $videoDAO->insert($data);
 
