@@ -187,6 +187,11 @@ app.controller('ComentariosController', ['$scope', 'Service', '$routeParams', '$
   self.video = [];
   $scope.comentario = {};
 
+  // recupera um vídeo específico com base no ID da url
+  service.get(hostAddress + 'videos/' + $routeParams.videoId, function(answer) {
+    self.video = answer;
+  });
+
   /**
   *  Função para cadastro de novo comentário
   *
@@ -194,16 +199,11 @@ app.controller('ComentariosController', ['$scope', 'Service', '$routeParams', '$
   */
   $scope.newComentario = function(comentario) {
     comentario.videoId = $routeParams.videoId;
-    service.post(hostAddress + 'comentarios', comentario, function(answer) {
+    service.post(hostAddress + 'comentarios/' + comentario.videoId, comentario, function(answer) {
       if (answer.id !== null) {
-        alert("Cadastrado com sucesso");
+        alert("Cadastrado com sucesso: " + self.video.curso);
         $location.path('/');
       }
     });
   }
-
-  // recupera um vídeo específico com base no ID da url
-  service.get(hostAddress + 'videos/' + $routeParams.videoId, function(answer) {
-    self.video = answer;
-  });
 }]);

@@ -9,7 +9,6 @@ class Comentario
   public $id;
   public $nota;
   public $comentario;
-  private $videoId;
 
   /**
    * Construtor que recebe o vetor de data com os parâmetros do comentarios
@@ -21,7 +20,6 @@ class Comentario
   {
     $this->nota = $data['nota'];
     $this->comentario = $data['comentario'];
-    $this->videoId = $data['videoId'];
   }
 
   /**

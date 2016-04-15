@@ -1,8 +1,8 @@
 <?php
-// begin the session
-session_start();
 
 interface DefaultDAO {
+
+  const URL = 'https://educoltec.firebaseio.com';
 
   /**
    * Insere um objeto
@@ -23,11 +23,6 @@ interface DefaultDAO {
    *  Exclui todos os objetos
    */
   public function deleteAll();
-
-  /**
-  *  Limpa a sessão
-  */
-  public function destroy();
 
   /**
    * Atualiza um objeto

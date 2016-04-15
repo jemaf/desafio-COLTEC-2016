@@ -79,26 +79,7 @@ $app->get('/cursos/{id}', function (Request $request, Response $response, $args)
   */
 $app->get('/videos', function (Request $request, Response $response) {
   $videoDAO = VideoDAO::getInstance();
-  $videos = array_values($videoDAO->getAll());
-
-  $uri = $request->getUri();
-  $comentarioURL = $uri->getScheme() . '://' . $uri->getHost() . ':' . $uri->getPort() .  $uri->getBasePath() . '/comentarios/';
-  $cursoURL = $uri->getScheme() . '://' . $uri->getHost() . ':' . $uri->getPort() . $uri->getBasePath() . '/cursos/';
-
-  // Adiciona os links para os comentários e cursos pertencentes aos vídeos
-  foreach ($videos as &$video) {
-    // Links dos comentários
-    $comentarioDAO = ComentarioDAO::getInstance();
-    $comentarios = array_values($comentarioDAO->getBy(array("videoId" => $video->id)));
-    $comentarios = array_map(function($var) use($comentarioURL) {
-      return $comentarioURL . $var->id;
-    }, $comentarios);
-
-    // Links dos vídeos
-    $video->comentarios = ($comentarios);
-    $video->curso = ($cursoURL . "" . $video->getCursoId());
-  }
-
+  $videos = $videoDAO->getAll();
   return $response->withJson($videos);
 });
 
@@ -210,11 +191,12 @@ $app->get('/comentarios/{id}', function (Request $request, Response $response, $
  *
  * Campos do comentário são enviados no body da requisição como JSON.
  */
-$app->post('/comentarios', function (Request $request, Response $response) {
+$app->post('/comentarios/{vidId}', function (Request $request, Response $response, $args) {
   $data = $request->getParsedBody();
+  $vidId = $args['vidId'];
 
   $comentarioDAO = ComentarioDAO::getInstance();
-  $result = $comentarioDAO->insert($data);
+  $result = $comentarioDAO->insert($data, $vidId);
 
   if ($result) {
     $newComentario = $comentarioDAO->getById($result->id);
@@ -234,17 +216,6 @@ $app->delete('/comentarios', function (Request $request, Response $response){
   $comentarioDAO->deleteAll();
 
   return $response->withJson(array("message" => "Comentários excluídos com sucesso"));
-});
-
-/**
-* Rota para limpar a sessão (excluir todos os objetos)
-*/
-$app->get('/clear', function (Request $request, Response $response){
-  $comentarioDAO = ComentarioDAO::getInstance();
-  $videoDAO = VideoDAO::getInstance();
-  $comentarioDAO->destroy();
-  $videoDAO->destroy();
-  return $response->withJson(array("message" => "Sessão fechada"));
 });
 
 $app->run();

@@ -2,10 +2,11 @@
 class VideoDAO implements DefaultDAO
 {
 
+  const PATH = '/videos';
+  private $firebase;
+
   private function __construct() {
-    if (!isset($_SESSION["videos"])) {
-      $_SESSION["videos"] = [];
-    }
+    $this->firebase = new \Firebase\FirebaseLib(self::URL);
   }
 
   public static function getInstance() {
@@ -20,34 +21,28 @@ class VideoDAO implements DefaultDAO
 
   public function insert($object) {
     $novoVideo = new Video($object);
-    $novoVideo->id = count($_SESSION["videos"]);
-    $_SESSION["videos"][] = $novoVideo;
-
+    $id = json_decode($this->firebase->push(self::PATH, null));
+    $novoVideo->id = $id->name;
+    $this->firebase->set(self::PATH . "/" . $novoVideo->id, $novoVideo);
     return $novoVideo;
   }
 
 
   public function delete($id) {
-    if ($_SESSION["videos"][$id]) {
-      unset($_SESSION["videos"][$id]);
+    if ($firebase->get(self::PATH . "/" . $id)) {
+      $firebase->delete(self::PATH . "/" . $id);
       return true;
     }
-
     return false;
   }
 
 
   public function deleteAll() {
-    $_SESSION["videos"] = [];
-  }
-
-  public function destroy() {
-    if($_SESSION)
-      session_destroy();
+    $firebase->delete(self::PATH);
   }
 
   public function update($object, $id) {
-    $video = $_SESSION["videos"][$id];
+    $video = json_decode($this->firebase->get(self::PATH . "/" . $id));
     if ($video) {
       $video->cursoId = $object['cursoId'] ? $object['cursoId'] : $video->cursoId;
       $video->titulo = $object['titulo'] ? $object['titulo'] : $video->titulo;
@@ -55,7 +50,7 @@ class VideoDAO implements DefaultDAO
       $video->urlImagem = $object['urlImagem'] ? $object['urlImagem'] : $video->urlImagem;
       $video->resumo = $object['resumo'] ? $object['resumo'] : $video->resumo;
       $video->disciplina = $object['disciplina'] ? $object['disciplina'] : $video->disciplina;
-
+      $this->firebase->set(self::PATH . "/" . $id, $video);
       return true;
     }
 
@@ -64,12 +59,13 @@ class VideoDAO implements DefaultDAO
 
 
   public function getById($id) {
-    return $_SESSION["videos"][$id];
+    return $this->firebase->get(self::PATH . "/" . $id);
   }
 
 
   public function getBy($data) {
-    return array_filter($_SESSION["videos"], function($var) {
+    $allVideos = json_decode($this->firebase->get(self::PATH));
+    return array_filter($allVideos, function($var) {
       return ($var->getId() == $data['id'] || $data['id'] === NULL) &&
               ($var->getCursoId() == $data['cursoId'] || $data['cursoId'] === NULL) &&
               ($var->getTitulo() == $data['titulo'] || $data['titulo'] === NULL) &&
@@ -81,6 +77,6 @@ class VideoDAO implements DefaultDAO
   }
 
   public function getAll() {
-    return $_SESSION["videos"];
+    return json_decode($this->firebase->get(self::PATH));
   }
 }
