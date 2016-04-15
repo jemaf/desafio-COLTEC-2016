@@ -108,7 +108,6 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
   // recupera os vídeos
   service.get(hostAddress + 'videos', function(answer) {
     self.videos = answer;
-    updateVideoCourse(0);
   });
 
 
@@ -117,6 +116,11 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
     self.cursos = answer;
   });
 
+  var count = 0;
+  for (k in self.videos)
+    if (self.videos.hasOwnProperty(k))
+      count++;
+  console.log(count);
 
   /**
   * método para atualizar url do vídeo da aula
@@ -150,14 +154,14 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
   *
   * @param index indice do video que será atualizado
   */
-  function updateVideoComments(videoIndex, commentIndex) {
-    if (commentIndex < self.videos[videoIndex].comentarios.length) {
-      service.get(self.videos[videoIndex].comentarios[commentIndex], function(answer) {
-        self.videos[videoIndex].comentarios[commentIndex] = answer;
-        updateVideoComments(videoIndex, commentIndex + 1);
-      });
-    }
-  }
+  // function updateVideoComments(videoIndex, commentIndex) {
+  //   if (commentIndex < self.videos[videoIndex].comentarios.length) {
+  //     service.get(self.videos[videoIndex].comentarios[commentIndex], function(answer) {
+  //       self.videos[videoIndex].comentarios[commentIndex] = answer;
+  //       updateVideoComments(videoIndex, commentIndex + 1);
+  //     });
+  //   }
+  // }
 }]);
 
 

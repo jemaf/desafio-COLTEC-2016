@@ -23,7 +23,7 @@ class Video
     if(isset($data['id'])) {
       $this->id = $data['id'];
     }
-    $this->curso = $data['curso'];
+    $this->curso = $data['curso']['nome'];
     $this->titulo = $data['titulo'];
     $this->urlVideo = $data['urlVideo'];
     $this->urlImagem = $data['urlImagem'];
