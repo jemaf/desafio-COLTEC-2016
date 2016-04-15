@@ -59,6 +59,52 @@
       <div class="row">
         <div class="s12">
           <h3 class="white-text center">Vídeos Disponíveis Atualmente</h3>
+          <div class="row">
+            <style media="screen">
+              @media screen and (max-width: 992px) {
+                #bigs{
+                  display: none;
+                }
+                #cell{
+
+                }
+              }
+              @media screen and (min-width: 993px) {
+                #bigs{
+
+                }
+                #cell{
+                    display: none;
+                }
+              }
+            </style>
+            <!--Menu para seleção de curso em telas grandes-->
+            <div class="col l12 center" id="bigs">
+              <a class="waves-effect waves-light indigo darken-1 btn-large" ng-click="defcurso(1)">Patola</a>
+              <a class="waves-effect waves-light indigo darken-1 btn-large" ng-click="defcurso(2)">Automação</a>
+              <a class="waves-effect waves-light indigo darken-1 btn-large" ng-click="defcurso(3)">Eletras</a>
+              <a class="waves-effect waves-light indigo darken-1 btn-large" ng-click="defcurso(4)">Info</a>
+              <a class="waves-effect waves-light indigo darken-1 btn-large" ng-click="defcurso(5)"></i>Química</a>
+            </div>
+            <!-- Menu para seleção de curso em telas pequenas -->
+            <div class="col s12 center" id="cell">
+              <div class="col s4 m4">
+                <a class="waves-effect waves-light indigo darken-1 btn-large" ng-click="defcurso(1)" style="width:100%; margin-top:5%">Patola</a>
+              </div>
+              <div class="col s4 m4">
+                <a class="waves-effect waves-light indigo darken-1 btn-large" style="width:100%; margin-top:5%" ng-click="defcurso(2)">Automação</a>
+              </div>
+              <div class="col s4 m4">
+                <a class="waves-effect waves-light indigo darken-1 btn-large" style="width:100%; margin-top:5%" ng-click="defcurso(3)">Eletras</a>
+              </div>
+              <div class="col s6 m6">
+                <a class="waves-effect waves-light indigo darken-1 btn-large" style="width:100%; margin-top:5%" ng-click="defcurso(4)">Info</a>
+              </div>
+              <div class="col s6 m6">
+                <a class="waves-effect waves-light indigo darken-1 btn-large" style="width:100%; margin-top:5%" ng-click="defcurso(5)"></i>Química</a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -67,18 +113,10 @@
 <div class="blue-grey lighten-5">
   <div class="container">
     <div class="section">
-      <div class="row">
-        <div class="col s12 m6 l4 offset-m6 offset-l8">
-          <select class="browser-default" ng-model="curso" ng-options="c.nome for c in videosCtrl.cursos track by c.id"> <!-- Seletor para escolher um curso especifico-->
-            <option value="">Selecione um curso</option>
-          </select>
-
-        </div>
-      </div>
       <div class="row no-pad-bot">
         <div ng-if="curso != null"> <!--If que faz com que só os videos de determinado curso sejam exibidos -->
           <div class="col l4 m6 s12" ng-repeat="video in videosCtrl.videos">
-          <div ng-if="curso.id == video.curso.id">
+          <div ng-if="curso.id == video.curso.id"> <!--If que define qual curso será definido -->
             <div class="card hoverable medium">
             <div class="card-image waves-effect waves-block waves-light">
               <img class="activator" ng-src="{{video.urlImagem}}">
@@ -147,9 +185,6 @@
 
   </div>
   <!-- Fim das modais de vídeo e comentários -->
-
-
-
 
 </div>
 <!-- Fim da lista dos Vídeos -->

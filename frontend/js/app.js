@@ -138,6 +138,26 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
   };
 
   /**
+  * função que define a variável $scope.curso que é utilizada para escolher quais vídeos serão exibidos
+  *
+  * o @param id é baseado nos ids que foram definidos previamente, sendo que
+  * id:1 = Patola
+  * id:2 = Automação
+  * id:3 = Eletras
+  * id:4 = Info
+  * id:5 = Quimica
+  */
+
+  $scope.defcurso = function(id){
+    for (var i = 0; i < self.cursos.length; i++)
+      if(self.cursos[i].id == id){
+        $scope.curso = self.cursos[i];
+        break;
+      }
+
+  }
+
+  /**
    *  Função para cadastro de novo vídeo
    *
    *  @param video novo video a ser cadastrado
