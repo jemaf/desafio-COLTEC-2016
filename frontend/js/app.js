@@ -3,52 +3,52 @@ var app = angular.module('eduCOLTEC', ['ngRoute']);
 var hostAddress = '/backend/src/public/';
 
 /**
- * Configuração das rotas
- */
+* Configuração das rotas
+*/
 app.config(['$routeProvider', function($routeProvider) {
-$routeProvider.when('/',
-      {
-        templateUrl: 'templates/main.html',
-        controller: "VideosController",
-        controllerAs: "videosCtrl"
-      }
-    )
-    .when('/novoVideo',
-      {
-        templateUrl: 'templates/newVideo.html',
-        controller: "VideosController",
-        controllerAs: "videosCtrl"
-      }
-    )
-    .when('/novoComentario/:videoId',
-      {
-        templateUrl: 'templates/newComment.html',
-        controller: "ComentariosController",
-        controllerAs: "comentariosCtrl"
-      }
-    )
-    .otherwise({redirectTo: '/'});
+  $routeProvider.when('/',
+  {
+    templateUrl: 'templates/main.html',
+    controller: "VideosController",
+    controllerAs: "videosCtrl"
+  }
+)
+.when('/novoVideo',
+{
+  templateUrl: 'templates/newVideo.html',
+  controller: "VideosController",
+  controllerAs: "videosCtrl"
+}
+)
+.when('/novoComentario/:videoId',
+{
+  templateUrl: 'templates/newComment.html',
+  controller: "ComentariosController",
+  controllerAs: "comentariosCtrl"
+}
+)
+.otherwise({redirectTo: '/'});
 }]);
 
 
 /**
- * Diretiva para funcionamento da modal.
- */
+* Diretiva para funcionamento da modal.
+*/
 app.directive('materialmodal', [function() {
-   return {
-      restrict: 'A',
-      link: function(scope, elem, attrs) {
-        scope.$watch("videos", function() {
-          $(elem).leanModal();
-        });
-      }
-   };
+  return {
+    restrict: 'A',
+    link: function(scope, elem, attrs) {
+      scope.$watch("videos", function() {
+        $(elem).leanModal();
+      });
+    }
+  };
 }]);
 
 
 /**
- * Filtro customizado para gerar intervalos
- */
+* Filtro customizado para gerar intervalos
+*/
 app.filter('range', function() {
   return function(input, total) {
     total = parseInt(total);
@@ -63,14 +63,14 @@ app.filter('range', function() {
 
 
 /**
- * Serviço para manipulação dos objetos do serviço
- */
+* Serviço para manipulação dos objetos do serviço
+*/
 app.factory('Service', function($http) {
   var service = {};
 
   /**
-   *  Função para tratar GET no serviço
-   */
+  *  Função para tratar GET no serviço
+  */
   service.get = function(url, callback) {
     $http.get(url).then(function(response) {
       var answer = response.data;
@@ -80,8 +80,8 @@ app.factory('Service', function($http) {
 
 
   /**
-   *  Função para tratar POST no serviço
-   */
+  *  Função para tratar POST no serviço
+  */
   service.post = function(url, data, callback) {
     $http.post(url, data).then(function(response) {
       var answer = response.data;
@@ -94,12 +94,12 @@ app.factory('Service', function($http) {
 
 
 /**
- * Controller para manipulação dos vídeos
- *
- * @param service serviço de manipulação dos vídeos
- * @param $scope escopo do controller
- * @param $sce serviço para anexar url do vídeo
- */
+* Controller para manipulação dos vídeos
+*
+* @param service serviço de manipulação dos vídeos
+* @param $scope escopo do controller
+* @param $sce serviço para anexar url do vídeo
+*/
 app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', function($sce, $scope, $location, service) {
   var self = this;
   self.videos = [];
@@ -119,20 +119,20 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
 
 
   /**
-   * método para atualizar url do vídeo da aula
-   *
-   * @param video a ser atualizado
-   */
+  * método para atualizar url do vídeo da aula
+  *
+  * @param video a ser atualizado
+  */
   $scope.getVideoUrl = function (video) {
     return $sce.trustAsResourceUrl(video.urlVideo);
   };
 
 
   /**
-   *  Função para cadastro de novo vídeo
-   *
-   *  @param video novo video a ser cadastrado
-   */
+  *  Função para cadastro de novo vídeo
+  *
+  *  @param video novo video a ser cadastrado
+  */
   $scope.newVideo = function(video) {
     video.cursoId = video.curso.id;
     service.post(hostAddress + 'videos', video, function(answer) {
@@ -145,10 +145,10 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
 
 
   /**
-   * Função para recuperação dos comentários da função do curso
-   *
-   * @param index indice do video que será atualizado
-   */
+  * Função para recuperação dos comentários da função do curso
+  *
+  * @param index indice do video que será atualizado
+  */
   function updateVideoComments(videoIndex, commentIndex) {
     if (commentIndex < self.videos[videoIndex].comentarios.length) {
       service.get(self.videos[videoIndex].comentarios[commentIndex], function(answer) {
@@ -162,10 +162,10 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
 
 
 /**
- * Controller para manipulação dos comentários
- *
- * @param service serviço de manipulação dos vídeos
- */
+* Controller para manipulação dos comentários
+*
+* @param service serviço de manipulação dos vídeos
+*/
 app.controller('ComentariosController', ['$scope', 'Service', '$routeParams', '$location', function($scope, service, $routeParams, $location) {
   var self = this;
   self.video = [];

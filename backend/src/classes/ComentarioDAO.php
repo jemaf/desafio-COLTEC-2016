@@ -11,12 +11,12 @@ class ComentarioDAO {
   }
 
   public static function getInstance() {
-        static $instance = null;
-        if (null === $instance) {
-            $instance = new static();
-        }
+    static $instance = null;
+    if (null === $instance) {
+      $instance = new static();
+    }
 
-        return $instance;
+    return $instance;
   }
 
 
@@ -66,10 +66,10 @@ class ComentarioDAO {
     $allComments = json_decode($this->firebase->get(self::PATH), true);
     return array_filter($allComments, function($var) use($data) {
       return
-              ($var->getId() == $data['id'] || $data['id'] === NULL) &&
-              ($var->getNota() == $data['nota'] || $data['nota'] === NULL) &&
-              ($var->getComentario() == $data['comentario'] || $data['comentario'] === NULL) &&
-              ($var->getVideoId() == $data['videoId'] || $data['videoId'] === NULL);
+      ($var->getId() == $data['id'] || $data['id'] === NULL) &&
+      ($var->getNota() == $data['nota'] || $data['nota'] === NULL) &&
+      ($var->getComentario() == $data['comentario'] || $data['comentario'] === NULL) &&
+      ($var->getVideoId() == $data['videoId'] || $data['videoId'] === NULL);
     });
   }
 

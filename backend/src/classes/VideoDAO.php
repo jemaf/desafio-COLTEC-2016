@@ -1,5 +1,5 @@
 <?php
-class VideoDAO 
+class VideoDAO
 {
 
   const URL = 'https://educoltec.firebaseio.com';
@@ -11,12 +11,12 @@ class VideoDAO
   }
 
   public static function getInstance() {
-        static $instance = null;
-        if (null === $instance) {
-            $instance = new static();
-        }
+    static $instance = null;
+    if (null === $instance) {
+      $instance = new static();
+    }
 
-        return $instance;
+    return $instance;
   }
 
 
@@ -68,12 +68,12 @@ class VideoDAO
     $allVideos = json_decode($this->firebase->get(self::PATH));
     return array_filter($allVideos, function($var) {
       return ($var->getId() == $data['id'] || $data['id'] === NULL) &&
-              ($var->getCurso() == $data['curso'] || $data['curso'] === NULL) &&
-              ($var->getTitulo() == $data['titulo'] || $data['titulo'] === NULL) &&
-              ($var->getUrlVide() == $data['urlVideo'] || $data['urlVideo'] === NULL) &&
-              ($var->getUrlImagem() == $data['urlImagem'] || $data['urlImagem'] === NULL) &&
-              ($var->getResumo() == $data['resumo'] || $data['resumo'] === NULL) &&
-              ($var->getDisciplina() == $data['disciplina'] || $data['disciplina'] === NULL);
+      ($var->getCurso() == $data['curso'] || $data['curso'] === NULL) &&
+      ($var->getTitulo() == $data['titulo'] || $data['titulo'] === NULL) &&
+      ($var->getUrlVide() == $data['urlVideo'] || $data['urlVideo'] === NULL) &&
+      ($var->getUrlImagem() == $data['urlImagem'] || $data['urlImagem'] === NULL) &&
+      ($var->getResumo() == $data['resumo'] || $data['resumo'] === NULL) &&
+      ($var->getDisciplina() == $data['disciplina'] || $data['disciplina'] === NULL);
     });
   }
 
