@@ -192,4 +192,21 @@ app.controller('ComentariosController', ['$scope', 'Service', '$routeParams', '$
   service.get(hostAddress + 'videos/' + $routeParams.videoId, function(answer) {
     self.video = answer;
   });
+
+
+  /**
+   *  Função para cadastro de novo comentario
+   *
+   *  @param comentario novo comentario a ser cadastrado
+   */
+  $scope.newComentario = function(comentario) {
+    //alert("Oi");
+    comentario.videoId = $routeParams.videoId;
+    service.post(hostAddress + 'comentarios', comentario, function(answer) {
+      if (answer.id !== null) {
+        alert("Cadastrado com sucesso");
+        $location.path('/');
+      }
+    });
+  }
 }]);
