@@ -2,7 +2,7 @@
 <div class="parallax-container" style="background-color:rgba(75,75,75,0.3)">
   <div class="section" id="index-banner">
     <div class="container" >
-      <h1 class="header center white-text">Portal COLTECADEMY</h1>
+      <h1 class="header center white-text">Portal COLTEC ACADEMY</h1>
       <div class="row center">
         <h5 class="header col s12 light">O portal educativo do COLTEC!!</h5>
       </div>
@@ -99,7 +99,7 @@
               <div class="card-action indigo lighten-5">
                 <a href="#video-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Vídeo</a>
                 <a href="#comment-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Comentários</a>
-                <a class="indigo-text">Nota: {{video.total/video.comentarios.length}}</a>
+                <a class="indigo-text"ng-if="video.rate > 0">Nota: {{video.rate}}</a>
               </div>
             </div>
           </div>

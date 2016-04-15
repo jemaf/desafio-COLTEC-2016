@@ -133,23 +133,14 @@ app.controller('VideosController', ['$sce', '$scope','$routeParams', '$location'
 
     return format_url;
   }
+
   //Função para selecionar um curso pra exibição prioritária
   function selectCurso(){
     self.selectedCourse = self.cursos[$routeParams.cursoId - 1];
   }
-  /**
-   * Função para fazer uma media dos valores das avaliações
-   *
-   */
+   // Função para fazer uma media dos valores das avaliações
    function rate_video (video){
-     var rate;
-      if(parseInt(video.total) > 0)
-        rate = video.total/video.comentarios.length;
-      else
-        rate = 6;
-
-        console.log(video);
-      return rate;
+      return (Math.round((video.total/video.comentarios.length) * 10)) / 10;
    }
   /**
    * Função para ordenar os videos para exibição
@@ -160,60 +151,43 @@ app.controller('VideosController', ['$sce', '$scope','$routeParams', '$location'
    switch (mode) {
      //ordena por avaliações do video
      case 'rating':
-        self.sortedVideos.sort(function(a,b){
-          if(a.rate < b.rate)
-            return -1;
-          else if(a.rate > b.rate)
-            return 1;
-          else
-            return 0;
-          });
+       self.sortedVideos.sort(function(a,b){
+         return a.rate-b.rate;
+       });
     break;
     //ordena pelo inverso das avaliações do video
     case 'reverse_rating':
        self.sortedVideos.sort(function(a,b){
-         if(a.rate < b.rate)
-           return -1;
-         else if(a.rate > b.rate)
-           return 1;
-         else
-           return 0;
+         return b.rate-a.rate;
          });
    break;
    //ordena pelo id do video id(data)
     case 'id':
-       self.sortedVideos.sort(function(a,b){
-         if(a.id < b.id)
-           return -1;
-         else if(a.id > b.id)
-           return 1;
-         else
-           return 0;
-         });
+      self.sortedVideos.sort(function(a,b){
+        return a.id-b.id;
+        });
    break;
    //ordena pelo inverso do id(data)
    case 'reverse_id':
       self.sortedVideos.sort(function(a,b){
-        if(a.id > b.id)
-          return -1;
-        else if(a.id < b.id)
-          return 1;
-        else
-          return 0;
-        });
-  break;
+        return b.id-a.id;
+      });
   }
+  console.log("VIDEOS",self.videos);
+  console.log("sortedVideos",self.sortedVideos);
 }
 //----------------------------------------------------------------------------//
   // recupera os vídeos
   service.get(hostAddress + 'videos', function(answer) {
     self.videos = answer;
     updateVideoCourse(0);
+    ordena_videos('rating');
   });
 
   // recupera os cursos
   service.get(hostAddress + 'cursos', function(answer) {
     self.cursos = answer;
+    selectCurso();
   });
 
   /**
@@ -252,11 +226,9 @@ app.controller('VideosController', ['$sce', '$scope','$routeParams', '$location'
         self.videos[index].curso = answer;
         self.checkbox[self.videos[index].curso.id] = 1;//CHECA QUAIS CURSOS POSSUEM VIDEOS A MOSTRAR
         self.videos[index].total = 0;
+        self.videos[index].rate = 0;
         updateVideoComments(index, 0);
-        self.videos[index].rate = rate_video(self.videos[index]);
         updateVideoCourse(index + 1);
-        selectCurso();
-        ordena_videos('rating');
       });
     }
   }
@@ -273,6 +245,7 @@ app.controller('VideosController', ['$sce', '$scope','$routeParams', '$location'
         self.videos[videoIndex].comentarios[commentIndex] = answer;
         self.videos[videoIndex].total += parseInt(self.videos[videoIndex].comentarios[commentIndex].nota);
         updateVideoComments(videoIndex, commentIndex + 1);
+        self.videos[videoIndex].rate = rate_video(self.videos[videoIndex]);
       });
     }
   }
