@@ -19,7 +19,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="input-field col s6">
+            <div class="input-field col s6 m6 l6">
               <select class="browser-default" ng-model="video.curso" ng-options="c.nome for c in videosCtrl.cursos track by c.id">
                 <option value="" disabled selected>Escolha um Curso</option>
               </select>
@@ -45,8 +45,7 @@
           <button class="btn-large waves-effect waves-light indigo darken-3 right" type="submit" name="action" ng-click="newVideo(video)" ng-if="video.curso != null">Cadastrar
             <i class="material-icons right">send</i>
           </button>
-          <button class="btn-large waves-effect waves-light indigo darken-3 right" type="submit" name="action" onclick="
-  Materialize.toast('Preencha o campo de Curso!', 4000)" ng-if="video.curso == null">Cadastrar
+          <button class="btn-large indigo lighten-4 right" type="submit" name="action" onclick="Materialize.toast('Marque todos os campos!',1500, 'rounded')" ng-if="video.curso == null">Cadastrar
             <i class="material-icons right">send</i>
           </button>
         </form>
