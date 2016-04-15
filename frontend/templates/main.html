@@ -1,4 +1,3 @@
-
 <!-- Banner principal -->
 <div class="parallax-container">
   <div class="section" id="index-banner">
@@ -71,8 +70,9 @@
       <div class="row">
         <div class="col s12 m6 l4 offset-m6 offset-l8">
           <select class="browser-default" ng-model="curso" ng-options="c.nome for c in videosCtrl.cursos track by c.id"> <!-- Seletor para escolher um curso especifico-->
-            <option value="">Todos os vídeos</option>
+            <option value="">Selecione um curso</option>
           </select>
+
         </div>
       </div>
       <div class="row no-pad-bot">
@@ -94,32 +94,10 @@
             <div class="card-action indigo lighten-5">
               <a href="#video-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Vídeo</a>
               <a href="#comment-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Comentários</a>
+              <a class="right" ng-click="share(video)" ><img src="http://i.stack.imgur.com/br4Br.png" height="21" width="58"/></a>
             </div>
           </div>
         </div>
-        </div>
-        </div>
-        <div ng-if="curso == null"><!--If que faz com que todos os vídeos sejam exibidos se nenhuma opção tiver sido selecionada -->
-          <div class="col l4 m6 s12" ng-repeat="video in videosCtrl.videos">
-            <div class="card hoverable medium">
-            <div class="card-image waves-effect waves-block waves-light">
-              <img class="activator" ng-src="{{video.urlImagem}}">
-            </div>
-            <div class="card-content">
-              <span class="card-title activator grey-text text-darken-4">{{video.curso.nome}}<i class="material-icons right">more_vert</i></span><br>
-              <b>{{video.disciplina}}</b><br>
-              <span>{{video.titulo}}</span>
-            </div>
-            <div class="card-reveal">
-              <span class="card-title grey-text text-darken-4">Resumo<i class="material-icons right">close</i></span>
-              <p>{{video.resumo}}</p>
-            </div>
-            <div class="card-action indigo lighten-5">
-              <a href="#video-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Vídeo</a>
-              <a href="#comment-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Comentários</a>
-              <a ng-click="share(video)" ><img src="http://i.stack.imgur.com/br4Br.png" height="21" width="58"/></a>
-            </div>
-          </div>
         </div>
         </div>
       </div>
@@ -128,41 +106,44 @@
 
   <!-- Modais para exibição dos vídeos e comentários -->
   <div ng-repeat="video in videosCtrl.videos">
+    <div ng-if="curso.id == video.curso.id">
 
-    <div id="video-{{video.id}}" class="modal">
-      <div class="modal-content" style="padding:0;">
-        <div class="video-container">
-          <iframe width="800" height="500" src="{{getVideoUrl(video)}}" frameborder="0"></iframe>
+      <div id="video-{{video.id}}" class="modal">
+        <div class="modal-content" style="padding:0;">
+          <div class="video-container">
+            <iframe width="800" height="500" src="{{getVideoUrl(video)}}" frameborder="0"></iframe>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a class=" modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+          <a href="#comment-{{video.id}}" class="modal-action modal-close waves-effect waves-green btn-flat" materialmodal>Comentários</a>
         </div>
       </div>
-      <div class="modal-footer">
-        <a class=" modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
-        <a href="#comment-{{video.id}}" class="modal-action modal-close waves-effect waves-green btn-flat" materialmodal>Comentários</a>
+
+      <div id="comment-{{video.id}}" class="modal modal-fixed-footer">
+        <div class="modal-content">
+          <h4>Comentários</h4>
+          <div class="row" ng-repeat="comentario in video.comentarios">
+            <div class="col s12">
+              <b>Nota: </b> <i class="material-icons tiny" ng-repeat="n in [] | range:comentario.nota">grade</i>
+            </div>
+            <div class="col s12">
+              <b>Comentário</b>
+              <p>
+                {{comentario.comentario}}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+          <a href="#video-{{video.id}}" class="modal-action modal-close waves-effect waves-green btn-flat" materialmodal>Vídeo</a>
+          <a href="#/novoComentario/{{video.id}}" class="modal-action modal-close waves-effect waves-green btn-flat">Novo</a>
+        </div>
+
       </div>
     </div>
 
-    <div id="comment-{{video.id}}" class="modal modal-fixed-footer">
-      <div class="modal-content">
-        <h4>Comentários</h4>
-        <div class="row" ng-repeat="comentario in video.comentarios">
-          <div class="col s12">
-            <b>Nota: </b> <i class="material-icons tiny" ng-repeat="n in [] | range:comentario.nota">grade</i>
-          </div>
-          <div class="col s12">
-            <b>Comentário</b>
-            <p>
-              {{comentario.comentario}}
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <a class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
-        <a href="#video-{{video.id}}" class="modal-action modal-close waves-effect waves-green btn-flat" materialmodal>Vídeo</a>
-        <a href="#/novoComentario/{{video.id}}" class="modal-action modal-close waves-effect waves-green btn-flat">Novo</a>
-      </div>
-
-    </div>
 
   </div>
   <!-- Fim das modais de vídeo e comentários -->

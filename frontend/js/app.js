@@ -137,7 +137,6 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
     return $sce.trustAsResourceUrl(video.urlVideo);
   };
 
-
   /**
    *  Função para cadastro de novo vídeo
    *
@@ -147,6 +146,8 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
     video.cursoId = video.curso.id;
     if(video.titulo == null || video.disciplina == null || video.urlVideo == null || video.urlImagem == null || video.resumo == null) //if que confere se todos os campos essenciais foram preenchidos
       Materialize.toast('Preencha todos os campos!', 3000, 'rounded'); //alerta de erro
+    else if(video.urlVideo[0] != 'h' && video.urlVideo[1] != 't' && video.urlVideo[2] != 't' && video.urlVideo[3] != 'p') //if que confere se a informação inserida no campo video é um link
+      Materialize.toast('Insira um link valido para o vídeo', 3000, 'rounded'); //alerta de erro
     else
       service.post(hostAddress + 'videos', video, function(answer) {
         if (answer.id !== null) {
@@ -207,12 +208,12 @@ app.controller('ComentariosController', ['$scope', 'Service', '$routeParams', '$
 
   /**
    *  Função para cadastro de novo comentario
-   *
+   * @param coment novo comentario a ser registrado
    */
   $scope.newComment = function(coment) {
     coment.videoId = $routeParams.videoId;
-    if(coment.nota == null || coment.comentario == null)
-      Materialize.toast('Preencha todos os campos!', 3000, 'rounded');
+    if(coment.nota == null || coment.comentario == null)//Confere se todos os campos foram preenchidos
+      Materialize.toast('Preencha todos os campos!', 3000, 'rounded'); //alerta de erro
     else
     service.post(hostAddress + 'comentarios', coment, function(answer) {
       if(answer.id !== null){
