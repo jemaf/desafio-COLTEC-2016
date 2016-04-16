@@ -135,9 +135,11 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
    */
   $scope.newVideo = function(video) {
     video.cursoId = video.curso.id;
+
     service.post(hostAddress + 'videos', video, function(answer) {
       if (answer.id !== null) {
-        alert("Cadastrado com sucesso");
+        //troquei para o materialize.toast pq eh bem mais legal e já é um recurso nativo do MaterializeCSS
+        Materialize.toast('Vídeo cadastrado com sucesso!', 2000,'rounded');
         $location.path('/');
       }
     });
@@ -187,6 +189,16 @@ app.controller('ComentariosController', ['$scope', 'Service', '$routeParams', '$
   self.video = [];
   $scope.comentario = {};
 
+  //Aqui começa o frontend para a inserção de comentários, usei como modelo o frontend para a inserção de vídeos
+  $scope.newComment = function(comment) {
+    comment.videoId = $routeParams.videoId;
+    service.post(hostAddress + 'comentarios', comment, function(answer) {
+      if (answer.id !== null){
+        Materialize.toast('Obrigado por comentar!', 2000,'rounded');
+        $location.path('/');
+      }
+    });
+  }
 
   // recupera um vídeo específico com base no ID da url
   service.get(hostAddress + 'videos/' + $routeParams.videoId, function(answer) {
