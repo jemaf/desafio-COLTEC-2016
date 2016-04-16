@@ -118,7 +118,8 @@ $app->get('/videos/{id}', function (Request $request, Response $response, $args)
 
 
 
-
+//------------------------------------------------------------------------------------------------------//
+//----------Aqui foi inserido o beckend para a inserção de vídeos, usei o modelo para comentários ;) ---//
 /**
  * Rota para salvar um vídeo.
  *
@@ -138,7 +139,7 @@ $app->post('/videos', function (Request $request, Response $response) {
     return $response->withJson(array("message" => "Erro durante cadastro de novo comentario"));
   }
 });
-
+//------------------------------------------------------------------------------------------------------//
 
 /**
  * Rota para Excluir todos os vídeos
