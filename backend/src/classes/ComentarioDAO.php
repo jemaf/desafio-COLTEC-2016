@@ -4,9 +4,7 @@ class ComentarioDAO implements DefaultDAO {
 
   private function __construct() {
     if (!isset($_SESSION["comentarios"])) {
-      $_SESSION["comentarios"] = array(
-                              '1' => new Comentario(array('id' => '1', 'nota' => 4, 'comentario' => 'Ótimo vídeo!!', 'videoId' => '1'))
-                            );;
+      $_SESSION["comentarios"] = [];
     }
   }
 

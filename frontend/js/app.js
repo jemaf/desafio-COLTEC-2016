@@ -2,6 +2,8 @@ var app = angular.module('eduCOLTEC', ['ngRoute']);
 
 var hostAddress = '/backend/src/public/';
 
+
+
 /**
  * Configuração das rotas
  */
@@ -117,6 +119,14 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
     self.cursos = answer;
   });
 
+  $scope.preencha = function(){
+    Materialize.toast('Preencha todos os campos!', 3000, 'rounded');
+  };
+
+  // Função para compartilhar
+  $scope.share = function(video){
+     window.open('https://www.facebook.com/sharer/sharer.php?u=' + video.urlVideo, "_blank", "resizable=yes,top=500,left=500,width=600,height=400");
+  };
 
   /**
    * método para atualizar url do vídeo da aula
@@ -127,6 +137,25 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
     return $sce.trustAsResourceUrl(video.urlVideo);
   };
 
+  /**
+  * função que define a variável $scope.curso que é utilizada para escolher quais vídeos serão exibidos
+  *
+  * o @param id é baseado nos ids que foram definidos previamente, sendo que
+  * id:1 = Patola
+  * id:2 = Automação
+  * id:3 = Eletras
+  * id:4 = Info
+  * id:5 = Quimica
+  */
+
+  $scope.defcurso = function(id){
+    for (var i = 0; i < self.cursos.length; i++)
+      if(self.cursos[i].id == id){
+        $scope.curso = self.cursos[i];
+        break;
+      }
+
+  }
 
   /**
    *  Função para cadastro de novo vídeo
@@ -135,12 +164,17 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
    */
   $scope.newVideo = function(video) {
     video.cursoId = video.curso.id;
-    service.post(hostAddress + 'videos', video, function(answer) {
-      if (answer.id !== null) {
-        alert("Cadastrado com sucesso");
-        $location.path('/');
-      }
-    });
+    if(video.titulo == null || video.disciplina == null || video.urlVideo == null || video.urlImagem == null || video.resumo == null) //if que confere se todos os campos essenciais foram preenchidos
+      Materialize.toast('Preencha todos os campos!', 3000, 'rounded'); //alerta de erro
+    else if(video.urlVideo[0] != 'h' && video.urlVideo[1] != 't' && video.urlVideo[2] != 't' && video.urlVideo[3] != 'p') //if que confere se a informação inserida no campo video é um link
+      Materialize.toast('Insira um link valido para o vídeo', 3000, 'rounded'); //alerta de erro
+    else
+      service.post(hostAddress + 'videos', video, function(answer) {
+        if (answer.id !== null) {
+          Materialize.toast('Cadastro de vídeo realizado com sucesso!', 3000, 'rounded'); //alerta de cadastro
+          $location.path('/');
+        }
+      });
   }
 
 
@@ -185,11 +219,28 @@ app.controller('VideosController', ['$sce', '$scope', '$location', 'Service', fu
 app.controller('ComentariosController', ['$scope', 'Service', '$routeParams', '$location', function($scope, service, $routeParams, $location) {
   var self = this;
   self.video = [];
-  $scope.comentario = {};
-
+  $scope.coment = {};
 
   // recupera um vídeo específico com base no ID da url
   service.get(hostAddress + 'videos/' + $routeParams.videoId, function(answer) {
     self.video = answer;
   });
+
+  /**
+   *  Função para cadastro de novo comentario
+   * @param coment novo comentario a ser registrado
+   */
+  $scope.newComment = function(coment) {
+    coment.videoId = $routeParams.videoId;
+    if(coment.nota == null || coment.comentario == null)//Confere se todos os campos foram preenchidos
+      Materialize.toast('Preencha todos os campos!', 3000, 'rounded'); //alerta de erro
+    else
+    service.post(hostAddress + 'comentarios', coment, function(answer) {
+      if(answer.id !== null){
+        Materialize.toast('Comentario registrado com sucesso', 3000, 'rounded'); //popup avisando que o comentario foi registrado
+          $location.path('/');
+      }
+    });
+  }
+
 }]);
