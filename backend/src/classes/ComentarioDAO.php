@@ -4,7 +4,7 @@ class ComentarioDAO implements DefaultDAO {
 
   private function __construct() {
     if (!isset($_SESSION["comentarios"])) {
-      $_SESSION["comentarios"] = [];
+      $_SESSION["comentarios"] = []; //Aqui foi trocado para um vetor vazio pro vídeo não iniciar com algum comentário default
     }
   }
 

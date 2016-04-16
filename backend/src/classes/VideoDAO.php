@@ -3,7 +3,7 @@ class VideoDAO implements DefaultDAO
 {
   private function __construct() {
     if (!isset($_SESSION["videos"])) {
-      $_SESSION["videos"] = [];
+      $_SESSION["videos"] = []; // Aqui eu troquei para um vetor vazio só para não iniciar já com algum vídeo;
     }
   }
 
