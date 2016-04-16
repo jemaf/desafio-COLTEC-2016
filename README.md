@@ -18,7 +18,7 @@ Cada módulo possui uma URL própria, podendo ser acessado conforme Tabela abaix
 | `/novoVideo`           | Cadastro de novo vídeo                                         |
 | `/novoComentario/:vid` | Cadastro de novo comentário pertencente a um vídeo de id = vid |
 
-O servidor se comunica com um [serviço externo](https://www.firebase.com/) para obter os dados dos vídeos e comentários, portanto uma conexão com a web é necessária.
+O servidor se comunica com um [serviço](https://github.com/ktamas77/firebase-php) [externo](https://www.firebase.com/) para obter os dados dos vídeos e comentários, portanto uma conexão com a web é necessária.
 
 Para acessar os dados do aplicativo (armazenados em um esquema JSON) acesse [educoltec.firebaseio.com/.json](https://educoltec.firebaseio.com/.json).
 
