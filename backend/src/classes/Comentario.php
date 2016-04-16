@@ -9,19 +9,17 @@ class Comentario
   public $id;
   public $nota;
   public $comentario;
-  private $videoId;
 
   /**
    * Construtor que recebe o vetor de data com os parâmetros do comentarios
    *
    * @param array $data vetor com os parâmetros do comentário a ser preenchido
+   *  (o id do comentário é adicionado depois)
    */
   function __construct(array $data)
   {
-    $this->id = $data['id'];
     $this->nota = $data['nota'];
     $this->comentario = $data['comentario'];
-    $this->videoId = $data['videoId'];
   }
 
   /**

@@ -1,0 +1,36 @@
+{
+  "cursos" : [ {
+    "id" : 0,
+    "nome" : "Análises Clínicas"
+  }, {
+    "id" : 1,
+    "nome" : "Automação"
+  }, {
+    "id" : 2,
+    "nome" : "Eletrônica"
+  }, {
+    "id" : 3,
+    "nome" : "Informática"
+  }, {
+    "id" : 3,
+    "nome" : "Química"
+  } ],
+  "videos" : {
+    "-KFNAhLccZf-MQEwCIYO" : {
+      "comentarios" : {
+        "-KFNuAn402Pop84Y1aC0" : {
+          "comentario" : "Aeehehehehehe",
+          "id" : "-KFNuAn402Pop84Y1aC0",
+          "nota" : 10
+        }
+      },
+      "curso" : "Informática",
+      "disciplina" : "DAW",
+      "id" : "-KFNAhLccZf-MQEwCIYO",
+      "resumo" : "Eu funciono! Diferente dos sentimentos humanos.",
+      "titulo" : "Olarrr",
+      "urlImagem" : "http://i.imgur.com/1mDAzlG.gif",
+      "urlVideo" : "https://www.youtube.com/embed/Rbzi14EO5ZQ"
+    }
+  }
+}

@@ -1,60 +1,57 @@
 <?php
-class VideoDAO implements DefaultDAO
+class VideoDAO
 {
+
+  const URL = 'https://educoltec.firebaseio.com';
+  const PATH = '/videos';
+  private $firebase;
+
   private function __construct() {
-    if (!isset($_SESSION["videos"])) {
-      $_SESSION["videos"] = array(
-                              '1' => new Video(array('id' => '1', 'cursoId' => 3, 'disciplina' => 'Introdução a Programação', 'titulo' => 'Estruturas de Repetição', 'urlVideo' => 'http://www.youtube.com/embed/XGSy3_Czz8k', 'urlImagem' => 'http://lorempixel.com/600/400', 'resumo' => 'Aula voltada para estruturas de repetição em C.'))
-                            );
-    }
+    $this->firebase = new \Firebase\FirebaseLib(self::URL);
   }
 
-
   public static function getInstance() {
-        static $instance = null;
-        if (null === $instance) {
-            $instance = new static();
-        }
+    static $instance = null;
+    if (null === $instance) {
+      $instance = new static();
+    }
 
-        return $instance;
+    return $instance;
   }
 
 
   public function insert($object) {
     $novoVideo = new Video($object);
-    $novoVideo->id = count($_SESSION["videos"]);
-    $_SESSION["videos"][] = $novoVideo;
-
+    $id = json_decode($this->firebase->push(self::PATH, null));
+    $novoVideo->id = $id->name;
+    $this->firebase->set(self::PATH . "/" . $novoVideo->id, $novoVideo);
     return $novoVideo;
   }
 
 
-  public function delete($object) {
-    if ($_SESSION["videos"][$object->id]) {
-      unset($_SESSION["videos"][$object->id]);
+  public function delete($id) {
+    if ($firebase->get(self::PATH . "/" . $id)) {
+      $firebase->delete(self::PATH . "/" . $id);
       return true;
     }
-
     return false;
   }
 
 
   public function deleteAll() {
-    $_SESSION["videos"] = [];
+    $firebase->delete(self::PATH);
   }
 
-
-  public function update($object) {
-    $video = $_SESSION["videos"][$object->id];
-
+  public function update($object, $id) {
+    $video = json_decode($this->firebase->get(self::PATH . "/" . $id));
     if ($video) {
-      $video->cursoId = $object->cursoId ? $object->cursoId : $video->cursoId;
-      $video->titulo = $object->titulo ? $object->titulo : $video->titulo;
-      $video->urlVideo = $object->urlVideo ? $object->urlVideo : $video->urlVideo;
-      $video->urlImagem = $object->urlImagem ? $object->urlImagem : $video->urlImagem;
-      $video->resumo = $object->resumo ? $object->resumo : $video->resumo;
-      $video->disciplina = $object->disciplina ? $object->disciplina : $video->disciplina;
-
+      $video->curso = $object['curso'] ? $object['curso'] : $video->curso;
+      $video->titulo = $object['titulo'] ? $object['titulo'] : $video->titulo;
+      $video->urlVideo = $object['urlVideo'] ? $object['urlVideo'] : $video->urlVideo;
+      $video->urlImagem = $object['urlImagem'] ? $object['urlImagem'] : $video->urlImagem;
+      $video->resumo = $object['resumo'] ? $object['resumo'] : $video->resumo;
+      $video->disciplina = $object['disciplina'] ? $object['disciplina'] : $video->disciplina;
+      $this->firebase->set(self::PATH . "/" . $id, $video);
       return true;
     }
 
@@ -63,23 +60,24 @@ class VideoDAO implements DefaultDAO
 
 
   public function getById($id) {
-    return $_SESSION["videos"][$id];
+    return json_decode($this->firebase->get(self::PATH . "/" . $id));
   }
 
 
   public function getBy($data) {
-    return array_filter($_SESSION["videos"], function($var) {
+    $allVideos = json_decode($this->firebase->get(self::PATH));
+    return array_filter($allVideos, function($var) {
       return ($var->getId() == $data['id'] || $data['id'] === NULL) &&
-              ($var->getCursoId() == $data['cursoId'] || $data['cursoId'] === NULL) &&
-              ($var->getTitulo() == $data['titulo'] || $data['titulo'] === NULL) &&
-              ($var->getUrlVide() == $data['urlVideo'] || $data['urlVideo'] === NULL) &&
-              ($var->getUrlImagem() == $data['urlImagem'] || $data['urlImagem'] === NULL) &&
-              ($var->getResumo() == $data['resumo'] || $data['resumo'] === NULL) &&
-              ($var->getDisciplina() == $data['disciplina'] || $data['disciplina'] === NULL);
+      ($var->getCurso() == $data['curso'] || $data['curso'] === NULL) &&
+      ($var->getTitulo() == $data['titulo'] || $data['titulo'] === NULL) &&
+      ($var->getUrlVide() == $data['urlVideo'] || $data['urlVideo'] === NULL) &&
+      ($var->getUrlImagem() == $data['urlImagem'] || $data['urlImagem'] === NULL) &&
+      ($var->getResumo() == $data['resumo'] || $data['resumo'] === NULL) &&
+      ($var->getDisciplina() == $data['disciplina'] || $data['disciplina'] === NULL);
     });
   }
 
   public function getAll() {
-    return $_SESSION["videos"];
+    return json_decode($this->firebase->get(self::PATH));
   }
 }

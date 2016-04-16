@@ -74,7 +74,7 @@
               <img class="activator" ng-src="{{video.urlImagem}}">
             </div>
             <div class="card-content">
-              <span class="card-title activator grey-text text-darken-4">{{video.curso.nome}}<i class="material-icons right">more_vert</i></span><br>
+              <span class="card-title activator grey-text text-darken-4">{{video.curso}}<i class="material-icons right">more_vert</i></span><br>
               <b>{{video.disciplina}}</b><br>
               <span>{{video.titulo}}</span>
             </div>
@@ -97,7 +97,7 @@
     <div id="video-{{video.id}}" class="modal">
       <div class="modal-content" style="padding:0;">
         <div class="video-container">
-          <iframe width="800" height="500" src="{{getVideoUrl(video)}}" frameborder="0"></iframe>
+          <iframe width="853" height="480" src="{{getVideoUrl(video)}}" frameborder="0"></iframe>
         </div>
       </div>
       <div class="modal-footer">
