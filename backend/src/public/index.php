@@ -60,12 +60,12 @@ $app->post('/videos', function (Request $request, Response $response) {
   $data = $request->getParsedBody();
 
   /**
-  *  Checa se a URL do vídeo é do Youtube e tenta extrair o ID dele.
+  *  Checa se a URL do vídeo é do Youtube e tenta extrair o ID dele. Olha que regex lindo
   *
   */
-  $pattern = '#^(?:https?://)?';    # Optional URL scheme. Either http or https.
-  $pattern .= '(?:www\.)?';         #  Optional www subdomain.
-  $pattern .= '(?:';                #  Group host alternatives:
+  $pattern = '#^(?:https?://)?';    # Either http or https.
+  $pattern .= '(?:www\.)?';         # Optional www subdomain.
+  $pattern .= '(?:';                # Group host alternatives:
   $pattern .=   'youtu\.be/';       #    Either youtu.be,
   $pattern .=   '|youtube\.com';    #    or youtube.com
   $pattern .=   '(?:';              #    Group path alternatives:
@@ -81,7 +81,15 @@ $app->post('/videos', function (Request $request, Response $response) {
   $parsedVid = isset($matches[1]) ? $matches[1] : FALSE;
   if($parsedVid===FALSE)
     return $response->withJson(array("message" => "Erro: vídeo inválido!"));
-  else $data['urlVideo'] = $parsedVid;
+  else $data['urlVideo'] = "https://www.youtube.com/v/" . $parsedVid;
+
+  /**
+  *  Checa se a URL da imagem é válida
+  *
+  */
+  $imageType = exif_imagetype($data['urlImagem']);
+  if($imageType != IMAGETYPE_GIF && $imageType != IMAGETYPE_JPEG && $imageType != IMAGETYPE_PNG)
+    return $response->withJson(array("message" => "Erro: imagem inválida!"));
 
   $videoDAO = VideoDAO::getInstance();
   $result = $videoDAO->insert($data);
