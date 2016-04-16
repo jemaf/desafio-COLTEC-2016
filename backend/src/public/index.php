@@ -128,32 +128,23 @@ $app->post('/videos', function (Request $request, Response $response) {
 
   }
 });
-// /**
-//  * Rota para deletar um video
-//  *
-//  * @param id id do video a ser del
-//  */
-//  $app->get('/videos/{id}', function (Request $request, Response $response, $args) {
-//    $videoDAO = VideoDAO::getInstance();
-//    $video = $videoDAO->getById($args['id']);
-// 
-//    $uri = $request->getUri();
-//    $comentarioURL = $uri->getScheme() . '://' . $uri->getHost() . ':' . $uri->getPort() .  $uri->getBasePath() . '/comentarios/';
-//    $cursoURL = $uri->getScheme() . '://' . $uri->getHost() . ':' . $uri->getPort() . $uri->getBasePath() . '/cursos/';
-//
-//    // Links dos comentários
-//    $comentarioDAO = ComentarioDAO::getInstance();
-//    $comentarios = array_values($comentarioDAO->getBy(array("videoId" => $video->id)));
-//    $comentarios = array_map(function($var) use($comentarioURL) {
-//      return $comentarioURL.$var->id;
-//    }, $comentarios);
-//
-//    // Links dos vídeos
-//    $video->comentarios = ($comentarios);
-//    $video->curso = ($cursoURL."".$video->getCursoId());
-//
-//    return $response->withJson($video);
-//  });
+
+/**
+ * Rota para deletar um video específico
+ *
+ * @param id id do video a ser deletado
+ */
+ $app->delete('/videos/{id}', function (Request $request, Response $response, $args) {
+   $videoDAO = VideoDAO::getInstance();
+   $video = $videoDAO->getById($args['id']);
+
+   if ($videoDAO->delete($video)) {
+    return $response->withJson(array("message" => "Vídeo excluído com sucesso"));
+  } else {
+    $response->setStatusCode(400);
+    return $response->withJson(array("message" => "Falha na exclusão do vídeo"));
+  }
+ });
 
 
 /**

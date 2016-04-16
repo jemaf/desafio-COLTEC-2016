@@ -38,7 +38,7 @@ class VideoDAO implements DefaultDAO
 
 
   public function deleteAll() {
-    $_SESSION["videos"] = [];
+    session_destroy();
   }
 
 

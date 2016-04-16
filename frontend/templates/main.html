@@ -76,14 +76,13 @@
           <i class="large mdi-navigation-menu"></i>
         </a>
         <ul>
-          <li><button ng-click = "ordena_videos('rating')" class="btn-floating indigo darken-3 dropleft-links">
+          <li><button ng-click = "ordena_videos('rating')" class="btn-floating indigo waves-effect waves-light darken-3 dropleft-links">
             <i class="material-icons">trending_up</i></a></li>
-          <li><button ng-click = "ordena_videos('reverse_rating')" class="btn-floating indigo darken-3 dropleft-links" >
+          <li><button ng-click = "ordena_videos('reverse_rating')" class="btn-floating waves-effect waves-light indigo darken-3 dropleft-links" >
             <i class="material-icons">trending_down</i></a></li>
-
-          <li><button ng-click = "ordena_videos('id')" class="btn-floating indigo darken-3 dropleft-links">
+          <li><button ng-click = "ordena_videos('id')" class="btn-floating indigo waves-effect waves-light darken-3 dropleft-links">
             <i class="fa fa-calendar-plus-o fa-fw" aria-hidden="true"></i></a></li>
-          <li><button ng-click = "ordena_videos('reverse_id')" class="btn-floating indigo darken-3 dropleft-links">
+          <li><button ng-click = "ordena_videos('reverse_id')" class="btn-floating indigo waves-effect waves-light darken-3 dropleft-links">
             <i class="fa fa-calendar-minus-o fa-fw" aria-hidden="true"></i></a></li>
         </ul>
       </div>
@@ -107,7 +106,6 @@
       <div class="section">
         <div class="row no-pad-bot">
           <div class="col l4 m6 s12" ng-repeat="video in videosCtrl.sortedVideos" ng-if="curso.id == video.curso.id">
-            <div ng-if = "video.exibir == 1">
               <div class="card hoverable medium">
                 <div class="card-image waves-effect waves-block waves-light">
                   <img class="activator" ng-src="{{video.urlImagem}}">
@@ -123,7 +121,9 @@
                 <div class="card-action indigo lighten-5">
                   <a href="#video-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Vídeo</a>
                   <a href="#comment-{{video.id}}" class="indigo-text modal-trigger" materialmodal>Comentários</a>
-                  <a class="indigo-text"ng-if="video.rate > 0">Media: {{video.rate}}</a>
+                  <a class="indigo-text" ng-if="video.rate > 0">Nota: {{video.rate}}</a>
+                  <a href="#deleteCheck-{{video.id}}" class="s-btn btn-floating indigo-text indigo modal-trigger " materialmodal><i class="material-icons">clear</i></a>
+                  <a href="#deleteCheck-{{video.id}}" class="l-btn btn-flat indigo-text white modal-trigger" materialmodal><i class="material-icons">clear</i></a>
                 </div>
               </div>
             </div>
@@ -132,11 +132,12 @@
       </div>
     </div>
   </div>
-</div>
 <!-- Fim Lista dos vídeos -->
 
 
-  <!-- Modais para exibição dos vídeos e comentários -->
+<!-- Modais para exibição dos vídeos, comentários, e deletadores -->
+
+  <!-- Videos -->
 <div ng-repeat="video in videosCtrl.videos">
   <div id="video-{{video.id}}" class="modal">
     <div class="modal-content" style="padding:0;">
@@ -148,6 +149,26 @@
       <a class=" modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
     </div>
   </div>
+    <!-- Deletadores -->
+  <div id="deleteCheck-{{video.id}}" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h5>Você tem certeza de que quer deletar esse vídeo?</h5>
+      <div class="row">
+        <div class="col s12 m4">
+          <img class="responsive-img" ng-src="{{video.urlImagem}}"><br>
+        </div>
+      </div>
+      <p class="card-title activator grey-text text-darken-4">Disciplina :{{video.disciplina}}</p>
+      <p>Título :{{video.titulo}}</p>
+      <p>Resumo :{{video.resumo}}</p>
+    </div>
+    <div class="modal-footer">
+      <a class="modal-action modal-close waves-effect green-text waves-green btn-flat">Voltar</a>
+      <button ng-click = "deleteVideo(video.id)" class="btn-flat waves-effect waves-red red-text white">
+      <span> DELETAR </span></button>
+    </div>
+  </div>
+    <!-- Comentarios -->
   <div id="comment-{{video.id}}" class="modal modal-fixed-footer">
     <div class="modal-content">
       <h4>Comentários</h4>

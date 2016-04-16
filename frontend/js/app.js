@@ -75,21 +75,6 @@ app.filter('range', function() {
     return input;
   };
 });
-app.filter('myFormat', function() {
-    return function(x) {
-        var i, c, txt = "";
-        x = x.split("")
-        for (i = 0; i < x.length; i++) {
-            c = x[i];
-            if (i % 2 == 0) {
-                c = c.toUpperCase();
-            }
-            txt += c;
-        }
-        return txt;
-    };
-});
-
 
 /**
  * Serviço para manipulação dos objetos do serviço
@@ -115,6 +100,14 @@ app.factory('Service', function($http) {
     $http.post(url, data).then(function(response) {
       var answer = response.data;
       callback(answer);
+    });
+  };
+  /**
+   *  Função para tratar POST no serviço
+   */
+  service.delete = function(url, data, callback) {
+    $http.delete(url).then(function(response) {
+      var answer = response.data;
     });
   };
 
@@ -153,6 +146,14 @@ app.controller('VideosController', ['$sce', '$scope','$routeParams', '$location'
     selectCurso();
   });
 
+  $scope.deleteVideo = function(videoid) {
+    console.log(videoid);
+  service.delete(hostAddress + 'videos/' + videoid,function(answer){
+    var response = JSON.parse(answer);
+    console.log(response);
+  });
+  location.reload();
+  }
 
 
   /**
