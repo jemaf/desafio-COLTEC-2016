@@ -97,15 +97,54 @@ $app->get('/videos/{id}', function (Request $request, Response $response, $args)
   $comentarioDAO = ComentarioDAO::getInstance();
   $comentarios = array_values($comentarioDAO->getBy(array("videoId" => $video->id)));
   $comentarios = array_map(function($var) use($comentarioURL) {
-    return $comentarioURL . $var->id;
+    return $comentarioURL.$var->id;
   }, $comentarios);
 
   // Links dos vídeos
   $video->comentarios = ($comentarios);
-  $video->curso = ($cursoURL . "" . $video->getCursoId());
+  $video->curso = ($cursoURL."".$video->getCursoId());
 
   return $response->withJson($video);
 });
+
+/**
+ * Rota para salvar um vídeo.
+ *
+ * Campos do video são enviados no body da requisição como JSON.
+ */
+
+$app->post('/videos', function (Request $request, Response $response) {
+  $data = $request->getParsedBody();
+
+  $videoDAO = VideoDAO::getInstance();
+  $result = $videoDAO->insert($data);
+
+  if($result) {
+    $newVideo = $videoDAO->getById($result->id);
+    return $response->withJson($newVideo);
+  } else {
+    $response->setStatusCode(400);
+    return $response->withJson(array("message" => "Erro durante cadastro de novo video"));
+
+  }
+});
+
+/**
+ * Rota para deletar um video específico
+ *
+ * @param id id do video a ser deletado
+ */
+ $app->delete('/videos/{id}', function (Request $request, Response $response, $args) {
+   $videoDAO = VideoDAO::getInstance();
+   $video = $videoDAO->getById($args['id']);
+
+   if ($videoDAO->delete($video)) {
+    return $response->withJson(array("message" => "Vídeo excluído com sucesso"));
+  } else {
+    $response->setStatusCode(400);
+    return $response->withJson(array("message" => "Falha na exclusão do vídeo"));
+  }
+ });
 
 
 /**
