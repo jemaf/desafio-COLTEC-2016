@@ -81,15 +81,15 @@ $app->post('/videos', function (Request $request, Response $response) {
   $parsedVid = isset($matches[1]) ? $matches[1] : FALSE;
   if($parsedVid===FALSE)
     return $response->withJson(array("message" => "Erro: vídeo inválido!"));
-  else $data['urlVideo'] = "https://www.youtube.com/v/" . $parsedVid;
+  else $data['urlVideo'] = "https://www.youtube.com/embed/" . $parsedVid; // URL "html-friendly"
 
   /**
-  *  Checa se a URL da imagem é válida
+  *  Checa se a URL da imagem é válida, se não for substitui pela thumbnail do vídeo
   *
   */
   $imageType = exif_imagetype($data['urlImagem']);
   if($imageType != IMAGETYPE_GIF && $imageType != IMAGETYPE_JPEG && $imageType != IMAGETYPE_PNG)
-    return $response->withJson(array("message" => "Erro: imagem inválida!"));
+    $data['urlImagem'] = "http://img.youtube.com/vi/" . $parsedVid . "/mqdefault.jpg";
 
   $videoDAO = VideoDAO::getInstance();
   $result = $videoDAO->insert($data);
